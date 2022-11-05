@@ -46,23 +46,18 @@ public class GameGuiMain implements Observer {
 		
 		
 //		
-//		BotPlayer b= new BotPlayer(4,game, (byte)4);
-//		game.addPlayerToGame(b);
-//		b.start();
+		BotPlayer b= new BotPlayer(4,game);
+		game.addPlayerToGame(b);
+		b.start();
 		
 		
 
-		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game, (byte)5);
-
+		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game);
 		game.addPlayerToGame(a);
 		a.start();
-		
-		game.addPlayerToGame(new PhoneyHumanPlayer(9, game, (byte)2));
-	
-		
-		
-		game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
-		game.addPlayerToGame(new PhoneyHumanPlayer(3, game, (byte)1));
+		game.addPlayerToGame(new PhoneyHumanPlayer(9, game));		
+		game.addPlayerToGame(new PhoneyHumanPlayer(2, game));
+		game.addPlayerToGame(new PhoneyHumanPlayer(3, game));
 		
 		try {
 			game.endGame.await();

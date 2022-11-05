@@ -42,6 +42,14 @@ public abstract class Player extends Thread {
 		currentStrength=strength;
 		originalStrength=strength;
 	}
+	
+	public Player(int id, Game game) {
+		super();
+		this.id = id;
+		this.game=game;
+		originalStrength=(byte)( (Math.random()*game.MAX_INITIAL_STRENGTH)+1);
+		currentStrength=originalStrength;
+	}
 
 	public abstract boolean isHumanPlayer();
 
@@ -76,7 +84,7 @@ public abstract class Player extends Thread {
 	public byte getCurrentStrength() {
 		return currentStrength;
 	}
-	
+
 	public void setStrength(Byte currentStrength){
 		this.currentStrength=currentStrength;
 	}
@@ -97,10 +105,9 @@ public abstract class Player extends Thread {
 		}
 		return true;
 	}
-	
+
 	public void killPlayer() {
 		this.setStrength((byte)0);
-		this.getCurrentCell().setPlayer(null);
 		this.interrupt();
 	}
 
@@ -108,13 +115,16 @@ public abstract class Player extends Thread {
 	public void run() {
 		try {
 			while(true){
-				if(Thread.interrupted() || this.getCurrentStrength()==10){
+				if(this.getCurrentStrength()==10){
 					game.endGame.countDown();
+					return;
+				}
+				if(Thread.interrupted()){
 					return;
 				}
 				move();
 				game.notifyChange();
-				Thread.sleep(game.REFRESH_INTERVAL);
+				Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
 			}
 		} catch (InterruptedException e) {
 			System.out.println(this+"Fui Morto");

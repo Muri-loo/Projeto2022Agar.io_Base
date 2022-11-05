@@ -11,6 +11,10 @@ public class BotPlayer extends Player {
 		super(id, game, strength);
 		// TODO Auto-generated constructor stub
 	}
+	public BotPlayer(int id, Game game) {
+		super(id, game);
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public boolean isHumanPlayer() {

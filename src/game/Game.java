@@ -18,17 +18,17 @@ public class Game extends Observable {
 	private static final int NUM_PLAYERS = 90;
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
-	public CountDownLatch endGame = new CountDownLatch(3);
-	
+	public CountDownLatch endGame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
+
 	private Lock l = new ReentrantLock();
 	private Condition PlayerInPosition = l.newCondition();
-	
+
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
 	public static final long INITIAL_WAITING_TIME = 10000;
 
-	
+
 	private BoardJComponent teclado;
 
 
@@ -57,20 +57,26 @@ public class Game extends Observable {
 		l.lock();
 //		Cell initialPos=getRandomCell();
 		Cell initialPos=getCell(new Coordinate(2,2));
-		while(initialPos.isOcupied()) PlayerInPosition.await();
+		Thread ajuda= new ThreadAux(this,initialPos);
+		ajuda.start();
+		while(initialPos.isOcupied()){
+			PlayerInPosition.await();
+			if(!ajuda.isAlive() && initialPos.isOcupied()){initialPos=getRandomCell();}
+		}
 		initialPos.setPlayer(player);
-		
+
 		// To update GUI
 		notifyChange();
+
 		l.unlock();
 	}
-	
+
 	public void unlockPlayerCell(){
 		l.lock();
 		PlayerInPosition.signalAll();
 		l.unlock();
 	}
-	
+
 
 	public Cell getCell(Coordinate at) {
 		return board[at.x][at.y];
