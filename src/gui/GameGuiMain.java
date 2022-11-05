@@ -52,9 +52,8 @@ public class GameGuiMain implements Observer {
 		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game, (byte)3);
 		game.addPlayerToGame(a);
 		a.start();
-		//vaitomarnocu
-		
-		
+	
+		//Vai Tomar NO RAbo salvador
 		
 		
 		game.addPlayerToGame(new PhoneyHumanPlayer(2, game, (byte)2));
