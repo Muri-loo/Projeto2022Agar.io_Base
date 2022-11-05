@@ -24,7 +24,6 @@ public class PhoneyHumanPlayer extends Player {
 			BoardJComponent key = game.getTeclado();
 			if(key.getLastPressedDirection()==null)
 				return;
-			System.out.println("Leaves waiting state");
 			Cell celulaPlayer=super.getCurrentCell();
 			Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
 			if(canMove(novaCoordenada)){

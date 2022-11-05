@@ -76,6 +76,10 @@ public abstract class Player extends Thread {
 	public byte getCurrentStrength() {
 		return currentStrength;
 	}
+	
+	public void setStrength(Byte currentStrength){
+		this.currentStrength=currentStrength;
+	}
 
 
 	public int getIdentification() {
@@ -85,21 +89,35 @@ public abstract class Player extends Thread {
 	public abstract void move();
 
 	protected boolean canMove(Coordinate point) {
-		
+		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0) return false;
+		Cell celula = game.getCell(point);
+		if(celula.isOcupied()){
+			game.fight(this,game.getCell(point).getPlayer());
+			return false;
+		}
 		return true;
+	}
+	
+	public void killPlayer() {
+		this.setStrength((byte)0);
+		this.getCurrentCell().setPlayer(null);
+		this.interrupt();
 	}
 
 	@Override
 	public void run() {
 		try {
 			while(true){
+				if(Thread.interrupted() || this.getCurrentStrength()==10){
+					game.endGame.countDown();
+					return;
+				}
 				move();
 				game.notifyChange();
 				Thread.sleep(game.REFRESH_INTERVAL);
 			}
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(this+"Fui Morto");
 		}
 	}
 

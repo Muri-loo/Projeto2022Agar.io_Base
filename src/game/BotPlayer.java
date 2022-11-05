@@ -18,10 +18,15 @@ public class BotPlayer extends Player {
 		return false;
 	}
 
+	
+	
+	
+	
+	
 	@Override
 	public void move() {
 		Cell celulaPlayer=super.getCurrentCell();
-		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());;
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
 		if(canMove(novaCoordenada)){
 			celulaPlayer.setPlayer(null);
 			game.getCell(novaCoordenada).setPlayer(this);

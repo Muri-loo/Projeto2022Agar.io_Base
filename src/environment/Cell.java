@@ -28,7 +28,8 @@ public class Cell {
 	}
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
-	public void setPlayer(Player player) {
+	public synchronized void setPlayer(Player player) {
+		if(player == null) game.unlockPlayerCell();
 		this.player = player;
 	}
 	

@@ -11,10 +11,6 @@ public enum Direction {
 	public Coordinate getVector() {
 		return vector;
 	}
-
-	
-	
-	
 	
 	public static Direction RandomVector() {
 		switch((int)((Math.random()*4)+1)) {
