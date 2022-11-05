@@ -55,13 +55,16 @@ public class Game extends Observable {
 	 */
 	public void addPlayerToGame(Player player) throws InterruptedException {
 		l.lock();
-//		Cell initialPos=getRandomCell();
-		Cell initialPos=getCell(new Coordinate(2,2));
-		Thread ajuda= new ThreadAux(this,initialPos);
+		Cell initialPos=getRandomCell();
+		Thread ajuda= new ThreadAux(this,initialPos,player);
 		ajuda.start();
 		while(initialPos.isOcupied()){
 			PlayerInPosition.await();
-			if(!ajuda.isAlive() && initialPos.isOcupied()){initialPos=getRandomCell();}
+			if(!ajuda.isAlive() && initialPos.isOcupied()){
+				initialPos=getRandomCell(); 
+				ajuda=new ThreadAux(this,initialPos,player);
+				ajuda.start();
+			}
 		}
 		initialPos.setPlayer(player);
 

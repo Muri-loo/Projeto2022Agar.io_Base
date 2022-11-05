@@ -32,7 +32,7 @@ public class BotPlayer extends Player {
 		Cell celulaPlayer=super.getCurrentCell();
 		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
 		if(canMove(novaCoordenada)){
-			celulaPlayer.setPlayer(null);
+			celulaPlayer.ClearCell();
 			game.getCell(novaCoordenada).setPlayer(this);
 		}
 	}

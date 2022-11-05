@@ -31,7 +31,9 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	private Image obstacleImage = new ImageIcon("obstacle.png").getImage();
 	private Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
-	
+	private Direction lastPressedDirectiondos=null;//MURILO
+
+
 	public BoardJComponent(Game game) {
 		this.game = game;
 		setFocusable(true);
@@ -105,6 +107,18 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		case KeyEvent.VK_DOWN:
 			lastPressedDirection=environment.Direction.DOWN;
 			break;
+		case KeyEvent.VK_A ://MURILO
+			lastPressedDirectiondos=environment.Direction.LEFT;
+			break;
+		case KeyEvent.VK_W://MURILO
+			lastPressedDirectiondos=environment.Direction.UP;
+			break;
+		case KeyEvent.VK_S://MURILO
+			lastPressedDirectiondos=environment.Direction.DOWN;
+			break;
+		case KeyEvent.VK_D://MURILO
+			lastPressedDirectiondos=environment.Direction.RIGHT;
+			break;
 		}
 	}
 
@@ -119,11 +133,21 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		// Ignored...
 	}
 
+
+	public Direction lastPressedDirectiondos() {//MURILO
+		return lastPressedDirectiondos;
+	}
+	public void clearlastPressedDirectiondos() {//MURILO
+		lastPressedDirectiondos=null;
+	}
+
 	public Direction getLastPressedDirection() {
 		return lastPressedDirection;
 	}
 
 	public void clearLastPressedDirection() {
-			lastPressedDirection=null;
+		lastPressedDirection=null;
 	}
+
+
 }

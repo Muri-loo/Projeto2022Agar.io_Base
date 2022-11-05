@@ -24,24 +24,24 @@ public class PhoneyHumanPlayer extends Player {
 
 	@Override
 	public  void move() {
-			BoardJComponent key = game.getTeclado();
-			if(key.getLastPressedDirection()==null)
-				return;
-			Cell celulaPlayer=super.getCurrentCell();
-			Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
-			if(canMove(novaCoordenada)){
-				celulaPlayer.setPlayer(null);
-				game.getCell(novaCoordenada).setPlayer(this);;
-				key.clearLastPressedDirection();
-			}
+		BoardJComponent key = game.getTeclado();
+		if(key.getLastPressedDirection()==null)
+			return;
+		Cell celulaPlayer=super.getCurrentCell();
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
+		if(canMove(novaCoordenada)){
+			celulaPlayer.ClearCell();
+			game.getCell(novaCoordenada).setPlayer(this);;
+			key.clearLastPressedDirection();
+		}
 	}
 
-	
 
 
 
-	
-	
+
+
+
 
 
 
