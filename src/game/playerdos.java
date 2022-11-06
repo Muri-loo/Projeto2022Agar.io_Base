@@ -18,14 +18,14 @@ public class PlayerDos extends Player {
 	@Override
 	public  void move() {
 		BoardJComponent key = game.getTeclado();
-		if(key.lastPressedDirectiondos()==null)
+		if(key.getLastPressedDirectionDos()==null)
 			return;
 		Cell celulaPlayer=super.getCurrentCell();
-		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.lastPressedDirectiondos().getVector());
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirectionDos().getVector());
 		if(canMove(novaCoordenada)){
 			celulaPlayer.ClearCell();
 			game.getCell(novaCoordenada).setPlayer(this);;
-			key.clearlastPressedDirectiondos();
+			key.clearLastPressedDirectionDos();;
 		}
 	}
 }
