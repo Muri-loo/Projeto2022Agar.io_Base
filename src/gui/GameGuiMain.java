@@ -6,7 +6,7 @@ import java.util.Observer;
 import game.BotPlayer;
 import game.Game;
 import game.PhoneyHumanPlayer;
-import game.playerdos;
+import game.PlayerDos;
 
 import javax.swing.JFrame;
 
@@ -45,23 +45,19 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-
-		//		
-
-
-
-
 		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game);
 		game.addPlayerToGame(a);
 		a.start();
 
-				BotPlayer b= new BotPlayer(4,game,(byte)9);
-				game.addPlayerToGame(b);
-				b.start();
-				BotPlayer c= new BotPlayer(12,game,(byte)9);
-				game.addPlayerToGame(c);
-				c.start();
-		playerdos d= new playerdos(18,game);
+		BotPlayer b= new BotPlayer(4,game,(byte)9);
+		game.addPlayerToGame(b);
+		b.start();
+		
+		BotPlayer c= new BotPlayer(12,game,(byte)9);
+		game.addPlayerToGame(c);
+		c.start();
+		
+		PlayerDos d= new PlayerDos(18,game);
 		game.addPlayerToGame(d);
 		d.start();
 
