@@ -1,6 +1,6 @@
 package gui;
 
-public class CountDownLatch {
+public class CountDownLatch { // ARTUR
 	
 	private int count ;
 	

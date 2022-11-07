@@ -14,7 +14,6 @@ public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
-	private CountDownLatch countDownLatch;
 
 	public GameGuiMain() {
 		super();
@@ -82,7 +81,7 @@ public class GameGuiMain implements Observer {
 
 		try {
 			//game.endGame.await();
-			countDownLatch.await();
+			game.countDownLatch.await(); // ARTUR
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

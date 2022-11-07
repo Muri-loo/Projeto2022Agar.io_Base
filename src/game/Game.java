@@ -18,7 +18,7 @@ public class Game extends Observable {
 	private static final int NUM_PLAYERS = 90;
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
-	public CountDownLatch endGame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
+	public CountDownLatch countDownLatch = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
 
 	private Lock l = new ReentrantLock();
 	private Condition PlayerInPosition = l.newCondition();
