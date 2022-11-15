@@ -56,21 +56,19 @@ public class Game extends Observable {
 	public void addPlayerToGame(Player player) throws InterruptedException {
 		l.lock();
 		Cell initialPos=getRandomCell();
-		Thread ajuda= new ThreadAux(this,initialPos,player);
-		ajuda.start();
+		Thread timer= new ThreadAux(this,initialPos,player);
+		timer.start();
 		while(initialPos.isOcupied()){
 			PlayerInPosition.await();
-			if(!ajuda.isAlive() && initialPos.isOcupied()){
+			if(!timer.isAlive() && initialPos.isOcupied()){
 				initialPos=getRandomCell(); 
-				ajuda=new ThreadAux(this,initialPos,player);
-				ajuda.start();
+				timer=new ThreadAux(this,initialPos,player);
+				timer.start();
 			}
 		}
 		initialPos.setPlayer(player);
-
 		// To update GUI
 		notifyChange();
-
 		l.unlock();
 	}
 
@@ -86,9 +84,8 @@ public class Game extends Observable {
 	}
 
 	public void fight(Player player1,Player player2) {
+		l.lock();
 		byte winnerStrength = (byte)Math.min(player1.getCurrentStrength()+player2.getCurrentStrength(),10);
-		Cell CelulaP1= player1.getCurrentCell();
-		Cell CelulaP2= player2.getCurrentCell();
 		if(player1.getCurrentStrength()==player2.getCurrentStrength()){
 			if( (int)((Math.random()*2)+1)>1){
 				//Player1Ganha
@@ -110,6 +107,7 @@ public class Game extends Observable {
 			player2.setStrength(winnerStrength);
 			player1.killPlayer();
 		}
+		l.unlock();
 	}
 
 

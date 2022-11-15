@@ -2,12 +2,13 @@ package environment;
 
 import game.Game;
 import game.Player;
+import game.ThreadAux;
 
 public class Cell {
 	private Coordinate position;
 	private Game game;
 	private Player player=null;
-	
+
 	public Cell(Coordinate position,Game g) {
 		super();
 		this.position = position;
@@ -29,20 +30,23 @@ public class Cell {
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public synchronized void setPlayer(Player player) {
-		if(isOcupied()) return;
+		if(isOcupied()){ 
+			//lock
+			return;
+		}
 		this.player = player;
 	}
-	
+
 	public void ClearCell() {
 		player=null;
 		game.unlockPlayerCell();
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Celula com x="+position.x+" y= "+position.y;
 	}
-	
-	
+
+
 
 }

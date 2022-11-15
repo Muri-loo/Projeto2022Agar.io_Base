@@ -9,6 +9,9 @@ public class playerdos extends Player {
 	public playerdos(int id, Game game) {
 		super(id, game);
 	}
+	public playerdos(int id, Game game,byte a) {
+		super(id, game,a);
+	}
 
 	@Override
 	public boolean isHumanPlayer() {
