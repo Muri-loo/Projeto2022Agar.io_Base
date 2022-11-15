@@ -6,6 +6,7 @@ import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
 import gui.BoardJComponent;
+import gui.CountDownLatch;
 
 /**
  * Represents a player.
@@ -116,7 +117,7 @@ public abstract class Player extends Thread {
 		try {
 			while(true){
 				if(this.getCurrentStrength()==10){
-					game.endGame.countDown();
+					game.countDownLatch.countDown(); // ARTUR
 					return;
 				}
 				if(Thread.interrupted()){

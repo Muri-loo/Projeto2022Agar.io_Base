@@ -4,9 +4,9 @@ import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
 
-public class playerdos extends Player {
+public class PlayerDos extends Player {
 
-	public playerdos(int id, Game game) {
+	public PlayerDos(int id, Game game) {
 		super(id, game);
 	}
 	public playerdos(int id, Game game,byte a) {
@@ -21,14 +21,14 @@ public class playerdos extends Player {
 	@Override
 	public  void move() {
 		BoardJComponent key = game.getTeclado();
-		if(key.lastPressedDirectiondos()==null)
+		if(key.getLastPressedDirectionDos()==null)
 			return;
 		Cell celulaPlayer=super.getCurrentCell();
-		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.lastPressedDirectiondos().getVector());
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirectionDos().getVector());
 		if(canMove(novaCoordenada)){
 			celulaPlayer.ClearCell();
 			game.getCell(novaCoordenada).setPlayer(this);;
-			key.clearlastPressedDirectiondos();
+			key.clearLastPressedDirectionDos();;
 		}
 	}
 }

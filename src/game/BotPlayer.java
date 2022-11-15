@@ -22,11 +22,6 @@ public class BotPlayer extends Player {
 		return false;
 	}
 
-	
-	
-	
-	
-	
 	@Override
 	public void move() {
 		Cell celulaPlayer=super.getCurrentCell();
