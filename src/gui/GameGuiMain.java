@@ -1,14 +1,16 @@
 package gui;
 
+import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
 
 import game.BotPlayer;
 import game.Game;
 import game.PhoneyHumanPlayer;
-import game.PlayerDos;
+import game.playerdos;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class GameGuiMain implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
@@ -45,49 +47,32 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game);
+		PhoneyHumanPlayer a =new PhoneyHumanPlayer(90, game,(byte)1);
 		game.addPlayerToGame(a);
 		a.start();
 
-		BotPlayer b= new BotPlayer(4,game,(byte)9);
-		game.addPlayerToGame(b);
-		b.start();
-		
-		BotPlayer c= new BotPlayer(12,game,(byte)9);
-		game.addPlayerToGame(c);
-		c.start();
-		
-		PlayerDos d= new PlayerDos(18,game);
+	
+	
+//
+		playerdos d= new playerdos(18,game,(byte)1);
 		game.addPlayerToGame(d);
 		d.start();
 
-		game.addPlayerToGame(new PhoneyHumanPlayer(9, game));		
-		game.addPlayerToGame(new PhoneyHumanPlayer(2, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(3, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(12, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(13, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(14, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(153, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(123, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(453, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(24, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(34, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(35, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(36, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(37, game));
-		game.addPlayerToGame(new PhoneyHumanPlayer(38, game));
-		
-		
+//		for(int i=0; i<80; i++){
+//			BotPlayer b= new BotPlayer(i,game);
+//			game.addPlayerToGame(b);
+//			b.start();
+//		}
 
 		try {
-			//game.endGame.await();
-			game.countDownLatch.await(); // ARTUR
+			game.endgame.await();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
+			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
-		
-		System.out.println("Acabou Jogo Caraio");
 	}
 
 	@Override

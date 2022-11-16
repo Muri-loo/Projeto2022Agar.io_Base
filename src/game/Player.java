@@ -43,7 +43,7 @@ public abstract class Player extends Thread {
 		currentStrength=strength;
 		originalStrength=strength;
 	}
-	
+
 	public Player(int id, Game game) {
 		super();
 		this.id = id;
@@ -101,26 +101,54 @@ public abstract class Player extends Thread {
 		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0) return false;
 		Cell celula = game.getCell(point);
 		if(celula.isOcupied()){
-			game.fight(this,game.getCell(point).getPlayer());
+			this.fight(game.getCell(point).getPlayer());
 			return false;
 		}
 		return true;
 	}
-
+	public boolean isDone(){
+		return this.currentStrength==0 || this.currentStrength==10;
+	}
 	public void killPlayer() {
-		this.setStrength((byte)0);
 		this.interrupt();
+		this.setStrength((byte)0);
+	}
+
+	public  void fight(Player player) {
+		synchronized( Player.class){
+			if( player.isDone() || this.isDone() ) return;
+			System.out.println("TEM LUTAAAA");
+			byte winnerStrength = (byte)Math.min(this.getCurrentStrength()+player.getCurrentStrength(),10);
+			if(this.getCurrentStrength()==player.getCurrentStrength()){
+				if( (int)((Math.random()*2)+1)>1){
+					//thisGanha
+					this.setStrength(winnerStrength);
+					player.killPlayer();
+				}else{
+					//playerGanha
+					player.setStrength(winnerStrength);
+					this.killPlayer();
+				}
+			}else if(this.getCurrentStrength()>player.getCurrentStrength()){
+				//thisGanha
+				this.setStrength(winnerStrength);
+				player.killPlayer();
+
+			}else{
+				//playerGanha
+				player.setStrength(winnerStrength);
+				this.killPlayer();
+			}
+		}
 	}
 
 	@Override
 	public void run() {
 		try {
 			while(true){
-				if(this.getCurrentStrength()==10){
-					game.countDownLatch.countDown(); // ARTUR
-					return;
-				}
-				if(Thread.interrupted()){
+				if(Thread.interrupted() || this.isDone() ){
+					if(this.getCurrentStrength()==10)
+						game.endgame.countDown(); 
 					return;
 				}
 				move();

@@ -5,7 +5,7 @@ public class CountDownLatch { // ARTUR
 	private int count ;
 	
 	public CountDownLatch( int count ) {
-		this . count = count ;
+		this.count = count ;
 	}
 		
 	public synchronized void await() throws InterruptedException {

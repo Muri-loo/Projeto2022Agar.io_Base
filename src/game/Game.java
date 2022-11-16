@@ -18,7 +18,7 @@ public class Game extends Observable {
 	private static final int NUM_PLAYERS = 90;
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
-	public CountDownLatch countDownLatch = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
+	public CountDownLatch endgame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
 
 	private Lock l = new ReentrantLock();
 	private Condition PlayerInPosition = l.newCondition();
@@ -83,32 +83,32 @@ public class Game extends Observable {
 		return board[at.x][at.y];
 	}
 
-	public void fight(Player player1,Player player2) {
-		l.lock();
-		byte winnerStrength = (byte)Math.min(player1.getCurrentStrength()+player2.getCurrentStrength(),10);
-		if(player1.getCurrentStrength()==player2.getCurrentStrength()){
-			if( (int)((Math.random()*2)+1)>1){
-				//Player1Ganha
-				player1.setStrength(winnerStrength);
-				player2.killPlayer();
-
-			}else{
-				//PLayer2Ganha
-				player2.setStrength(winnerStrength);
-				player1.killPlayer();
-			}
-		}else if(player1.getCurrentStrength()>player2.getCurrentStrength()){
-			//PLayer1Ganha
-			player1.setStrength(winnerStrength);
-			player2.killPlayer();
-
-		}else{
-			//Player2Ganha
-			player2.setStrength(winnerStrength);
-			player1.killPlayer();
-		}
-		l.unlock();
-	}
+//	public void fight(Player player1,Player player2) {
+//		l.lock();
+//		byte winnerStrength = (byte)Math.min(player1.getCurrentStrength()+player2.getCurrentStrength(),10);
+//		if(player1.getCurrentStrength()==player2.getCurrentStrength()){
+//			if( (int)((Math.random()*2)+1)>1){
+//				//Player1Ganha
+//				player1.setStrength(winnerStrength);
+//				player2.killPlayer();
+//
+//			}else{
+//				//PLayer2Ganha
+//				player2.setStrength(winnerStrength);
+//				player1.killPlayer();
+//			}
+//		}else if(player1.getCurrentStrength()>player2.getCurrentStrength()){
+//			//PLayer1Ganha
+//			player1.setStrength(winnerStrength);
+//			player2.killPlayer();
+//
+//		}else{
+//			//Player2Ganha
+//			player2.setStrength(winnerStrength);
+//			player1.killPlayer();
+//		}
+//		l.unlock();
+//	}
 
 
 	/**	
