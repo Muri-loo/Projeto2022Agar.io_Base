@@ -32,9 +32,9 @@ public class BotPlayer extends Player {
 				game.getCell(novaCoordenada).setPlayer(this);
 			}
 		}catch(NullPointerException e){
-			e.printStackTrace();
-
+			//e.printStackTrace();
 			System.out.println("Deu barraca:"+celulaPlayer);
+			this.interrupt();
 		}
 		
 	}

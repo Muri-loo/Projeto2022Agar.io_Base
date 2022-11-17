@@ -30,12 +30,9 @@ public class Cell {
 
 	// Should not be used like this in the initial state: cell might be occupied, must coordinate this operation
 	public synchronized void setPlayer(Player player) {
-		if(isOcupied()){
-			System.out.println("Tento");
-			return;
-		}
-			
-
+//		if(isOcupied()){
+//			return;
+//		}
 		this.player = player;
 	}
 

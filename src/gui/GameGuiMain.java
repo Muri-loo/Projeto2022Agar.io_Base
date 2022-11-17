@@ -3,6 +3,8 @@ package gui;
 import java.awt.event.WindowEvent;
 import java.util.Observable;
 import java.util.Observer;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import game.BotPlayer;
 import game.Game;
@@ -47,32 +49,38 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		PhoneyHumanPlayer a =new PhoneyHumanPlayer(90, game,(byte)1);
-		game.addPlayerToGame(a);
-		a.start();
-
-	
-	
+//		PhoneyHumanPlayer a =new PhoneyHumanPlayer(90, game,(byte)1);
+//		game.addPlayerToGame(a);
+//		a.start();
 //
-		playerdos d= new playerdos(18,game,(byte)1);
-		game.addPlayerToGame(d);
-		d.start();
+//	
+//	
+////
+//		playerdos d= new playerdos(18,game,(byte)1);
+//		game.addPlayerToGame(d);
+//		d.start();
 
-//		for(int i=0; i<80; i++){
-//			BotPlayer b= new BotPlayer(i,game);
-//			game.addPlayerToGame(b);
-//			b.start();
-//		}
+		
 
+		 ExecutorService pool = Executors.newFixedThreadPool(70);
+		 for(int i=0; i<45; i++){
+				BotPlayer b= new BotPlayer(i,game);
+				game.addPlayerToGame(b);
+				pool.submit(b);
+			}
+
+		
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
+			 pool.shutdownNow();
 			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
+		
 	}
 
 	@Override

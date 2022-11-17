@@ -150,10 +150,12 @@ public abstract class Player extends Thread {
 					if(this.getCurrentStrength()==10)
 						game.endgame.countDown(); 
 					return;
+				}else{
+					move();
+					game.notifyChange();
+					Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
 				}
-				move();
-				game.notifyChange();
-				Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
+
 			}
 		} catch (InterruptedException e) {
 			System.out.println(this+"Fui Morto");
