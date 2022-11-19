@@ -98,12 +98,8 @@ public abstract class Player extends Thread {
 	public abstract void move();
 
 	protected boolean canMove(Coordinate point) {
-		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0) return false;
-		Cell celula = game.getCell(point);
-		if(celula.isOcupied()){
-			this.fight(game.getCell(point).getPlayer());
+		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0)
 			return false;
-		}
 		return true;
 	}
 	public boolean isDone(){
@@ -139,26 +135,25 @@ public abstract class Player extends Thread {
 				player.setStrength(winnerStrength);
 				this.killPlayer();
 			}
+			if(winnerStrength==10)	game.endgame.countDown(); 
 		}
 	}
 
 	@Override
 	public void run() {
 		try {
-			while(true){
-				if(Thread.interrupted() || this.isDone() ){
-					if(this.getCurrentStrength()==10)
-						game.endgame.countDown(); 
-					return;
-				}else{
-					move();
-					game.notifyChange();
-					Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
-				}
 
+			//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
+			game.getRandomCell().setPlayerInGame(this);
+//			game.getCell(new Coordinate(6,6)).setPlayerInGame(this);;
+			while(true){
+				if(Thread.interrupted() || this.isDone() ) return;
+				move();
+				game.notifyChange();
+				Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
 			}
 		} catch (InterruptedException e) {
-			System.out.println(this+"Fui Morto");
+			System.out.println("Fui Morto: "+this);
 		}
 	}
 

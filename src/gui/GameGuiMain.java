@@ -49,38 +49,38 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-//		PhoneyHumanPlayer a =new PhoneyHumanPlayer(90, game,(byte)1);
-//		game.addPlayerToGame(a);
-//		a.start();
-//
-//	
-//	
-////
-//		playerdos d= new playerdos(18,game,(byte)1);
-//		game.addPlayerToGame(d);
-//		d.start();
+		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
+		a.start();
+		//
+		//	
+		//	
+		////
+		playerdos d= new playerdos(2,game,(byte)1);
+		d.start();
 
-		
 
-		 ExecutorService pool = Executors.newFixedThreadPool(70);
-		 for(int i=0; i<45; i++){
-				BotPlayer b= new BotPlayer(i,game);
-				game.addPlayerToGame(b);
-				pool.submit(b);
-			}
 
-		
+
+
+		ExecutorService pool = Executors.newFixedThreadPool(70);
+//		for(int i=0; i<90; i++){
+//			BotPlayer f =new BotPlayer(i,game);
+//			pool.submit(f);
+//		}
+
+
+
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			 pool.shutdownNow();
+			pool.shutdownNow();
 			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
-		
+
 	}
 
 	@Override

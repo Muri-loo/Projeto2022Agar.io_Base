@@ -28,7 +28,6 @@ public class BotPlayer extends Player {
 		try{
 			Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
 			if(canMove(novaCoordenada)){
-				celulaPlayer.ClearCell();
 				game.getCell(novaCoordenada).setPlayer(this);
 			}
 		}catch(NullPointerException e){

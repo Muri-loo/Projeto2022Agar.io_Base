@@ -49,67 +49,11 @@ public class Game extends Observable {
 				board[x][y] = new Cell(new Coordinate(x, y),this);
 	}
 
-	/** 
-	 * @param player 
-	 * @throws InterruptedException 
-	 */
-	public void addPlayerToGame(Player player) throws InterruptedException {
-		l.lock();
-		Cell initialPos=getRandomCell();
-		//Cell initialPos=this.getCell(new Coordinate(10,10));
-		Thread timer= new ThreadAux(this,initialPos,player);
-		timer.start();
-		while(initialPos.isOcupied()){
-			PlayerInPosition.await();
-			if(!timer.isAlive() && initialPos.isOcupied()){
-				initialPos=getRandomCell(); 
-				timer=new ThreadAux(this,initialPos,player);
-				timer.start();
-			}
-		}
-		initialPos.setPlayer(player);
-		// To update GUI
-		notifyChange();
-		l.unlock();
-	}
-
-	public void unlockPlayerCell(){
-		l.lock();
-		PlayerInPosition.signalAll();
-		l.unlock();
-	}
-
-
 	public Cell getCell(Coordinate at) {
 		return board[at.x][at.y];
 	}
 
-//	public void fight(Player player1,Player player2) {
-//		l.lock();
-//		byte winnerStrength = (byte)Math.min(player1.getCurrentStrength()+player2.getCurrentStrength(),10);
-//		if(player1.getCurrentStrength()==player2.getCurrentStrength()){
-//			if( (int)((Math.random()*2)+1)>1){
-//				//Player1Ganha
-//				player1.setStrength(winnerStrength);
-//				player2.killPlayer();
-//
-//			}else{
-//				//PLayer2Ganha
-//				player2.setStrength(winnerStrength);
-//				player1.killPlayer();
-//			}
-//		}else if(player1.getCurrentStrength()>player2.getCurrentStrength()){
-//			//PLayer1Ganha
-//			player1.setStrength(winnerStrength);
-//			player2.killPlayer();
-//
-//		}else{
-//			//Player2Ganha
-//			player2.setStrength(winnerStrength);
-//			player1.killPlayer();
-//		}
-//		l.unlock();
-//	}
+
 
 
 	/**	

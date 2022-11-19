@@ -27,7 +27,6 @@ public class playerdos extends Player {
 		Cell celulaPlayer=super.getCurrentCell();
 		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirectionDos().getVector());
 		if(canMove(novaCoordenada)){
-			celulaPlayer.ClearCell();
 			game.getCell(novaCoordenada).setPlayer(this);;
 			key.clearLastPressedDirectionDos();;
 		}
