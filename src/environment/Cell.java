@@ -35,8 +35,8 @@ public class Cell {
 		return player;
 	}
 
-	
-	
+
+
 	//METODO PARA INICIALIZAR PLAYERS NO INICIO DO JOGO
 	public  void setPlayerInGame(Player player) throws InterruptedException {
 		l.lock();
@@ -59,15 +59,15 @@ public class Cell {
 		l.unlock();
 	}
 
-	
-	
+
+
 	public synchronized void setPlayer(Player player){
 		if(isOcupied()){
 			getPlayer().fight(player);
-			return;
+		}else{
+			player.getCurrentCell().ClearCell();
+			this.player=player;
 		}
-		player.getCurrentCell().ClearCell();
-		this.player=player;
 	}
 
 

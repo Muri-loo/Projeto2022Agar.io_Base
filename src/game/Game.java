@@ -69,6 +69,15 @@ public class Game extends Observable {
 		return newCell; 
 	}
 
+	public int playersInGame() {
+		int player=0;
+		for (int x = 0; x < Game.DIMX; x++) 
+			for (int y = 0; y < Game.DIMY; y++) 
+				if(this.getCell(new Coordinate(x,y)).getPlayer()!=null){
+					player++;
+				}
+		return player;
+	}
 
 
 }

@@ -63,10 +63,10 @@ public class GameGuiMain implements Observer {
 
 
 		ExecutorService pool = Executors.newFixedThreadPool(70);
-//		for(int i=0; i<90; i++){
-//			BotPlayer f =new BotPlayer(i,game);
-//			pool.submit(f);
-//		}
+		for(int i=0; i<90; i++){
+			BotPlayer f =new BotPlayer(i,game);
+			pool.submit(f);
+		}
 
 
 
@@ -76,6 +76,7 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
+			System.out.println(game.playersInGame());
 			pool.shutdownNow();
 			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -88,6 +89,7 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
+	
 	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();
