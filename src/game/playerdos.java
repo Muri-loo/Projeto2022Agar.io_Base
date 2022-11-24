@@ -4,13 +4,13 @@ import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
 
-public class playerdos extends Player {
+public class PlayerDos extends Player {
 
-	public playerdos(int id, Game game) {
+	public PlayerDos(int id, Game game) {
 		super(id, game);
 	}
 	
-	public playerdos(int id, Game game,byte a) {
+	public PlayerDos(int id, Game game,byte a) {
 		super(id, game,a);
 	}
 
