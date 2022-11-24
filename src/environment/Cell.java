@@ -14,6 +14,7 @@ public class Cell {
 	private Player player=null;
 
 	private Lock l = new ReentrantLock();
+
 	private Condition PlayerInPosition = l.newCondition();
 
 	public Cell(Coordinate position,Game g) {
@@ -48,7 +49,7 @@ public class Cell {
 		while(this.isOcupied()){
 			PlayerInPosition.await();
 			if(!timer.isAlive() && this.isOcupied()){
-				System.out.println("Passaram-se Dois segundos e a timer morreu");
+				System.out.println("Passaram-se Dois segundos e jogador vai ser recolocado:"+player);
 				l.unlock();
 				game.getRandomCell().setPlayerInGame(player);
 				return; 
@@ -61,13 +62,18 @@ public class Cell {
 
 
 
-	public synchronized void setPlayer(Player player){
+	public  void setPlayer(Player player){
+		l.lock();
+		Cell playerCell=player.getCurrentCell();
+		playerCell.l.lock();
 		if(isOcupied()){
 			getPlayer().fight(player);
 		}else{
 			player.getCurrentCell().ClearCell();
 			this.player=player;
 		}
+		playerCell.l.unlock();
+		l.unlock();
 	}
 
 

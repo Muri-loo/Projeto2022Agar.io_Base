@@ -24,14 +24,12 @@ public class GameGuiMain implements Observer {
 		game = new Game();
 		game.addObserver(this);
 		buildGui();
-
 	}
 
 	private void buildGui() {
 		boardGui = new BoardJComponent(game);
 		frame.add(boardGui);
 		game.setTeclado(boardGui);
-
 
 		frame.setSize(800,800);
 		frame.setLocation(0, 150);
@@ -41,7 +39,6 @@ public class GameGuiMain implements Observer {
 	public void init() throws InterruptedException  {
 		frame.setVisible(true);
 
-		// Demo players, should be deleted
 		try {
 			Thread.sleep(3000);
 		} catch (InterruptedException e) {
@@ -49,31 +46,22 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
-		a.start();
-		//
-		//	
-		//	
-		////
-		playerdos d= new playerdos(2,game,(byte)1);
-		d.start();
+//				PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
+//				a.start();
 
 
-
-
+		//		playerdos d= new playerdos(2,game,(byte)1);
+		//		d.start();
 
 		ExecutorService pool = Executors.newFixedThreadPool(70);
-		for(int i=0; i<90; i++){
+		for(int i=0; i<100; i++){
 			BotPlayer f =new BotPlayer(i,game);
 			pool.submit(f);
 		}
 
-
-
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
 			System.out.println(game.playersInGame());
@@ -89,7 +77,7 @@ public class GameGuiMain implements Observer {
 		boardGui.repaint();
 	}
 
-	
+
 	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();

@@ -111,9 +111,10 @@ public abstract class Player extends Thread {
 	}
 
 	public  void fight(Player player) {
+		
 		synchronized( Player.class){
 			if( player.isDone() || this.isDone() ) return;
-			System.out.println("TEM LUTAAAA");
+//			System.out.println("TEM LUTAAAA");
 			byte winnerStrength = (byte)Math.min(this.getCurrentStrength()+player.getCurrentStrength(),10);
 			if(this.getCurrentStrength()==player.getCurrentStrength()){
 				if( (int)((Math.random()*2)+1)>1){
@@ -153,7 +154,7 @@ public abstract class Player extends Thread {
 				Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
 			}
 		} catch (InterruptedException e) {
-			System.out.println("Fui Morto: "+this);
+			//System.out.println("Fui Morto: "+this);
 		}
 	}
 
