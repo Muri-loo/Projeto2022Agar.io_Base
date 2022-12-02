@@ -2,11 +2,9 @@ package game;
 
 
 import java.util.Observable;
-import java.util.concurrent.CountDownLatch;
-import java.util.concurrent.locks.Condition;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
+//import java.util.concurrent.CountDownLatch;
 
+import gui.CountDownLatch;
 import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
@@ -15,13 +13,11 @@ public class Game extends Observable {
 
 	public static final int DIMY = 30;
 	public static final int DIMX = 30;
-	private static final int NUM_PLAYERS = 90;
+	public static final int NUM_PLAYERS = 90;
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
 	public CountDownLatch endgame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
 
-	private Lock l = new ReentrantLock();
-	private Condition PlayerInPosition = l.newCondition();
 
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;

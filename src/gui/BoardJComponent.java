@@ -107,6 +107,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 		case KeyEvent.VK_DOWN:
 			lastPressedDirection=environment.Direction.DOWN;
 			break;
+			
 		case KeyEvent.VK_A ://MURILO
 			lastPressedDirectionDos=environment.Direction.LEFT;
 			break;

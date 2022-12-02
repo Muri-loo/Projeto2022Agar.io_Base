@@ -1,5 +1,6 @@
 package environment;
 
+import java.util.Comparator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,7 +9,7 @@ import game.Game;
 import game.Player;
 import game.ThreadAux;
 
-public class Cell {
+public class Cell implements Comparator<Cell>{
 	private Coordinate position;
 	private Game game;
 	private Player player=null;
@@ -63,15 +64,23 @@ public class Cell {
 
 
 	public  void setPlayer(Player player){
-		l.lock();
 		Cell playerCell=player.getCurrentCell();
-		playerCell.l.lock();
+		//IMPEDIR QUE EXISTA DEAD LOCK BLOQUEANDO DOIS OBJETOS SEMPRE A MESMA ORDEM
+		if(compare(this,playerCell)>1){
+			l.lock(); 
+			playerCell.l.lock();
+		}else{
+			playerCell.l.lock();
+			l.lock();
+		}
+
 		if(isOcupied()){
 			getPlayer().fight(player);
 		}else{
 			player.getCurrentCell().ClearCell();
 			this.player=player;
 		}
+
 		playerCell.l.unlock();
 		l.unlock();
 	}
@@ -95,6 +104,18 @@ public class Cell {
 	public String toString() {
 		return "Celula com x="+position.x+" y= "+position.y;
 	}
+
+	@Override
+	public int compare(Cell o1, Cell o2) {
+		if(o1.getPosition().x>o2.getPosition().x || o1.getPosition().y>o2.getPosition().y)
+			return 1;
+		else if(o1.getPosition().y<o2.getPosition().y || o1.getPosition().y<o2.getPosition().y )
+			return -1;
+		else
+			return 0;
+	}
+
+
 
 
 
