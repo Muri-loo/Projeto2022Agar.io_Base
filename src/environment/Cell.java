@@ -40,7 +40,8 @@ public class Cell {
 	//METODO PARA INICIALIZAR PLAYERS NO INICIO DO JOGO
 	public  void setPlayerInGame(Player player) throws InterruptedException {
 		l.lock();
-		if(isOcupied()) System.out.println("Quero inserir o jogador: "+player+" na cela: "+this+" Onde se encontra o jogador: "+getPlayer());
+		if(isOcupied()) 
+			System.out.println("Quero inserir o jogador: "+player+" na cela: "+this+" Onde se encontra o jogador: "+getPlayer());
 		//INICIA O TIMER DE DOIS SEGUNDOS
 		Thread timer= new ThreadAux(game,this,player);
 		timer.start();

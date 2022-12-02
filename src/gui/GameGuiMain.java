@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 import game.BotPlayer;
 import game.Game;
 import game.PhoneyHumanPlayer;
-import game.playerdos;
+import game.PlayerDos;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
@@ -54,22 +54,15 @@ public class GameGuiMain implements Observer {
 		//
 		//	
 		//	
-		////
-		playerdos d= new playerdos(2,game,(byte)1);
+		PlayerDos d= new PlayerDos(2,game,(byte)1);
 		d.start();
 
-
-
-
-
+		
 		ExecutorService pool = Executors.newFixedThreadPool(70);
 		for(int i=0; i<90; i++){
 			BotPlayer f =new BotPlayer(i,game);
 			pool.submit(f);
 		}
-
-
-
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
