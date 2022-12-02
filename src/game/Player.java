@@ -97,55 +97,58 @@ public abstract class Player extends Thread {
 
 	public abstract void move();
 
+
 	protected boolean canMove(Coordinate point) {
 		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0)
 			return false;
 		return true;
 	}
+
+
 	public boolean isDone(){
 		return this.currentStrength==0 || this.currentStrength==10;
 	}
+
 	public void killPlayer() {
 		this.interrupt();
 		this.setStrength((byte)0);
 	}
 
 	public  void fight(Player player) {
-		synchronized( Player.class){
-			if( player.isDone() || this.isDone() ) return;
-			System.out.println("TEM LUTAAAA");
-			byte winnerStrength = (byte)Math.min(this.getCurrentStrength()+player.getCurrentStrength(),10);
-			if(this.getCurrentStrength()==player.getCurrentStrength()){
-				if( (int)((Math.random()*2)+1)>1){
-					//thisGanha
-					this.setStrength(winnerStrength);
-					player.killPlayer();
-				}else{
-					//playerGanha
-					player.setStrength(winnerStrength);
-					this.killPlayer();
-				}
-			}else if(this.getCurrentStrength()>player.getCurrentStrength()){
+		if( player.isDone() || this.isDone() ) return;
+
+		byte winnerStrength = (byte)Math.min(this.getCurrentStrength()+player.getCurrentStrength(),10);
+		if(this.getCurrentStrength()==player.getCurrentStrength()){
+
+			if( (int)((Math.random()*2)+1)>1){
 				//thisGanha
 				this.setStrength(winnerStrength);
 				player.killPlayer();
-
 			}else{
 				//playerGanha
 				player.setStrength(winnerStrength);
 				this.killPlayer();
 			}
-			if(winnerStrength==10)	game.endgame.countDown(); 
+
+		}else if(this.getCurrentStrength()>player.getCurrentStrength()){
+			//thisGanha
+			this.setStrength(winnerStrength);
+			player.killPlayer();
+		}else{
+			//playerGanha
+			player.setStrength(winnerStrength);
+			this.killPlayer();
 		}
+		if(winnerStrength==10)	game.endgame.countDown(); 
 	}
 
 	@Override
 	public void run() {
 		try {
-
 			//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
 			game.getRandomCell().setPlayerInGame(this);
-//			game.getCell(new Coordinate(6,6)).setPlayerInGame(this);;
+			//			game.getCell(new Coordinate(6,6)).setPlayerInGame(this);;
+			
 			while(true){
 				if(Thread.interrupted() || this.isDone() ) return;
 				move();

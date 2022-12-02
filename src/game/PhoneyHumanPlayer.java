@@ -28,17 +28,14 @@ public class PhoneyHumanPlayer extends Player {
 		if(key.getLastPressedDirection()==null)
 			return;
 		Cell celulaPlayer=super.getCurrentCell();
-		try{
-			Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
-			
-			if(canMove(novaCoordenada)){
-				game.getCell(novaCoordenada).setPlayer(this);;
-				key.clearLastPressedDirection();
-			}
-		}catch(NullPointerException e){
-			System.out.println("Celula vazia"+celulaPlayer);
-	
+
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
+
+		if(canMove(novaCoordenada)){
+			game.getCell(novaCoordenada).setPlayer(this);;
+			key.clearLastPressedDirection();
 		}
+
 
 	}
 

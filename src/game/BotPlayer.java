@@ -25,17 +25,12 @@ public class BotPlayer extends Player {
 	@Override
 	public void move() {
 		Cell celulaPlayer=super.getCurrentCell();
-		try{
-			Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
-			if(canMove(novaCoordenada)){
-				game.getCell(novaCoordenada).setPlayer(this);
-			}
-		}catch(NullPointerException e){
-			//e.printStackTrace();
-			System.out.println("Deu barraca:"+celulaPlayer);
-			this.interrupt();
-		}
-		
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
+		if(canMove(novaCoordenada))
+			game.getCell(novaCoordenada).setPlayer(this);
+
+
+
 	}
 
 }
