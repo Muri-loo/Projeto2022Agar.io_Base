@@ -142,22 +142,29 @@ public abstract class Player extends Thread {
 		if(winnerStrength==10)	game.endgame.countDown(); 
 	}
 
+
+	//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
+
+
+	
 	@Override
 	public void run() {
-		try {
-			//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
-			game.getRandomCell().setPlayerInGame(this);
-			//			game.getCell(new Coordinate(6,6)).setPlayerInGame(this);;
-			
-			while(true){
-				if(Thread.interrupted() || this.isDone() ) return;
-				move();
+
+		while(!(this.isDone() || game.isOver()) ){
+			try {
+				if(this.getCurrentCell()==null)	
+//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
+					game.getRandomCell().setPlayerInGame(this);
+				else
+					move();
+
 				game.notifyChange();
-				Thread.sleep(game.REFRESH_INTERVAL*originalStrength);
+				Thread.sleep(Game.REFRESH_INTERVAL*originalStrength);
+			} catch (InterruptedException e) {
+				if(this.isDone() || game.isOver())return;
 			}
-		} catch (InterruptedException e) {
-			System.out.println("Fui Morto: "+this);
 		}
+
 	}
 
 }

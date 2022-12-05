@@ -8,6 +8,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import game.Game;
 import game.Player;
 import game.ThreadAux;
+import game.WakeUp;
 
 public class Cell implements Comparator<Cell>{
 	private Coordinate position;
@@ -17,6 +18,8 @@ public class Cell implements Comparator<Cell>{
 	private Lock l = new ReentrantLock();
 
 	private Condition PlayerInPosition = l.newCondition();
+	private Condition BotBlock = l.newCondition();
+
 
 	public Cell(Coordinate position,Game g) {
 		super();
@@ -40,21 +43,20 @@ public class Cell implements Comparator<Cell>{
 
 
 	//METODO PARA INICIALIZAR PLAYERS NO INICIO DO JOGO
-	public  void setPlayerInGame(Player player) throws InterruptedException {
+	public  void setPlayerInGame(Player player)  {
 		l.lock();
 		if(isOcupied()) 
 			System.out.println("Quero inserir o jogador: "+player+" na cela: "+this+" Onde se encontra o jogador: "+getPlayer());
 		//INICIA O TIMER DE DOIS SEGUNDOS
-		Thread timer= new ThreadAux(game,this,player);
+		WakeUp timer=new WakeUp(Thread.currentThread());
 		timer.start();
 		//CASO CELA ESTEJA OCUPADA ENTRA EM ESPERA
 		while(this.isOcupied()){
-			PlayerInPosition.await();
-			if(!timer.isAlive() && this.isOcupied()){
-				System.out.println("Passaram-se Dois segundos e jogador vai ser recolocado:"+player);
+			try {
+				PlayerInPosition.await();
+			} catch (InterruptedException e) {
 				l.unlock();
-				game.getRandomCell().setPlayerInGame(player);
-				return; 
+				return;
 			}
 		}
 		//INSERE O PLAYER NA CELA DESEJADA
@@ -64,8 +66,9 @@ public class Cell implements Comparator<Cell>{
 
 
 
-	public  void setPlayer(Player player){
+	public  void setPlayer(Player player) {
 		Cell playerCell=player.getCurrentCell();
+
 		//IMPEDIR QUE EXISTA DEAD LOCK BLOQUEANDO DOIS OBJETOS SEMPRE A MESMA ORDEM
 		if(compare(this,playerCell)>1){
 			l.lock(); 
@@ -74,9 +77,26 @@ public class Cell implements Comparator<Cell>{
 			playerCell.l.lock();
 			l.lock();
 		}
-
+		//Se cela tiver ocupada
 		if(isOcupied()){
+			//Se o player na cela esta morto ou ja acabou o jogo.
+			if(this.player.isDone()){
+				//Incia timer que apos 2 segundos ira enviar interrupt para argumento
+				WakeUp timer=new WakeUp(Thread.currentThread());
+				timer.start();
+				playerCell.l.unlock();
+				try {
+					while(timer.isAlive())
+						BotBlock.await();
+				} catch (InterruptedException e) {
+					l.unlock();
+					System.out.println("espera Feita");
+					return;
+				}
+			}
+
 			getPlayer().fight(player);
+
 		}else{
 			player.getCurrentCell().ClearCell();
 			this.player=player;
