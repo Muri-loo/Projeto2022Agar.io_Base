@@ -49,17 +49,17 @@ public class GameGuiMain implements Observer {
 			e.printStackTrace();
 		}
 
-		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
-		a.start();
-		//
-		//	
-		//	
-		PlayerDos d= new PlayerDos(2,game,(byte)1);
-		d.start();
+//		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
+//		a.start();
+//		//
+//		//	
+//		//	
+//		PlayerDos d= new PlayerDos(2,game,(byte)1);
+//		d.start();
 
 		
-		ExecutorService pool = Executors.newFixedThreadPool(70);
-		for(int i=0; i<90; i++){
+		ExecutorService pool = Executors.newFixedThreadPool(200);
+		for(int i=0; i<99; i++){
 			BotPlayer f =new BotPlayer(i,game);
 			pool.submit(f);
 		}
@@ -69,6 +69,7 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
+			game.EndGame();
 			System.out.println(game.playersInGame());
 			pool.shutdownNow();
 			JOptionPane.showMessageDialog(frame, "Jogo acabou");	

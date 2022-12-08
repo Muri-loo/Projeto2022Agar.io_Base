@@ -32,7 +32,7 @@ public class PhoneyHumanPlayer extends Player {
 		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
 
 		if(canMove(novaCoordenada)){
-			game.getCell(novaCoordenada).setPlayer(this);;
+			game.getCell(novaCoordenada).setPlayer(this);
 			key.clearLastPressedDirection();
 		}
 
