@@ -23,7 +23,7 @@ public class BotPlayer extends Player {
 	}
 
 	@Override
-	public void move() {
+	public void move() throws InterruptedException {
 		Cell celulaPlayer=super.getCurrentCell();
 		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(Direction.RandomVector().getVector());
 		if(canMove(novaCoordenada))

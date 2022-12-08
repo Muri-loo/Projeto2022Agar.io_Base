@@ -5,26 +5,23 @@ import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import game.BotPlayer;
 import game.Game;
 import game.Player;
-import game.ThreadAux;
 import game.WakeUp;
 
 public class Cell implements Comparator<Cell>{
 	private Coordinate position;
-	private Game game;
 	private Player player=null;
 
 	private Lock l = new ReentrantLock();
 
 	private Condition PlayerInPosition = l.newCondition();
-	private Condition BotBlock = l.newCondition();
 
 
 	public Cell(Coordinate position,Game g) {
 		super();
 		this.position = position;
-		this.game=g;
 	}
 
 	public Coordinate getPosition() {
@@ -66,7 +63,7 @@ public class Cell implements Comparator<Cell>{
 
 
 
-	public  void setPlayer(Player player) {
+	public  void setPlayer(Player player) throws InterruptedException {
 		Cell playerCell=player.getCurrentCell();
 
 		//IMPEDIR QUE EXISTA DEAD LOCK BLOQUEANDO DOIS OBJETOS SEMPRE A MESMA ORDEM
@@ -80,19 +77,17 @@ public class Cell implements Comparator<Cell>{
 		//Se cela tiver ocupada
 		if(isOcupied()){
 			//Se o player na cela esta morto ou ja acabou o jogo.
-			if(this.player.isDone()){
+			if(this.player.isDone() /*&& player instanceof BotPlayer*/){
 				//Incia timer que apos 2 segundos ira enviar interrupt para argumento
 				WakeUp timer=new WakeUp(Thread.currentThread());
 				timer.start();
 				playerCell.l.unlock();
-				try {
+				l.unlock();
+				synchronized(player){
 					while(timer.isAlive())
-						BotBlock.await();
-				} catch (InterruptedException e) {
-					l.unlock();
-					System.out.println("espera Feita");
-					return;
+						player.wait();
 				}
+
 			}
 
 			getPlayer().fight(player);
@@ -103,13 +98,6 @@ public class Cell implements Comparator<Cell>{
 		}
 
 		playerCell.l.unlock();
-		l.unlock();
-	}
-
-
-	public void PlayerInPositionWake() {
-		l.lock();
-		PlayerInPosition.signalAll();
 		l.unlock();
 	}
 

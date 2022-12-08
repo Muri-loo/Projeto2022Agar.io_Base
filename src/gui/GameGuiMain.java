@@ -69,11 +69,11 @@ public class GameGuiMain implements Observer {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}finally{
-			game.EndGame();
-			System.out.println(game.playersInGame());
-			pool.shutdownNow();
-			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
-			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+//			game.EndGame();
+//			System.out.println(game.playersInGame());
+//			pool.shutdownNow();
+//			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
+//			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 
 	}

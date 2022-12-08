@@ -1,7 +1,5 @@
 package game;
 
-import environment.Cell;
-
 public class WakeUp extends Thread{
 
 	Thread p;

@@ -4,9 +4,6 @@ package game;
 
 import environment.Cell;
 import environment.Coordinate;
-import environment.Direction;
-import gui.BoardJComponent;
-import gui.CountDownLatch;
 
 /**
  * Represents a player.
@@ -48,7 +45,7 @@ public abstract class Player extends Thread {
 		super();
 		this.id = id;
 		this.game=game;
-		originalStrength=(byte)( (Math.random()*game.MAX_INITIAL_STRENGTH)+1);
+		originalStrength=(byte)( (Math.random()*Game.MAX_INITIAL_STRENGTH)+1);
 		currentStrength=originalStrength;
 	}
 
@@ -95,11 +92,11 @@ public abstract class Player extends Thread {
 		return id;
 	}
 
-	public abstract void move();
+	public abstract void move() throws InterruptedException;
 
 
 	protected boolean canMove(Coordinate point) {
-		if(point.x	>= game.DIMX || point.y  >= game.DIMY || point.x<0 || point.y<0)
+		if(point.x	>= Game.DIMX || point.y  >= Game.DIMY || point.x<0 || point.y<0)
 			return false;
 		return true;
 	}

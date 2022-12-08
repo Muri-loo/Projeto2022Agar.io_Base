@@ -20,7 +20,7 @@ public class PlayerDos extends Player {
 	}
 
 	@Override
-	public  void move() {
+	public  void move() throws InterruptedException {
 		BoardJComponent key = game.getTeclado();
 		if(key.getLastPressedDirectionDos()==null)
 			return;

@@ -2,7 +2,6 @@ package game;
 
 import environment.Cell;
 import environment.Coordinate;
-import environment.Direction;
 import gui.BoardJComponent;
 
 /**
@@ -23,7 +22,7 @@ public class PhoneyHumanPlayer extends Player {
 	}
 
 	@Override
-	public  void move() {
+	public  void move() throws InterruptedException {
 		BoardJComponent key = game.getTeclado();
 		if(key.getLastPressedDirection()==null)
 			return;
