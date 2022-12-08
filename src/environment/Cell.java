@@ -77,7 +77,7 @@ public class Cell implements Comparator<Cell>{
 		//Se cela tiver ocupada
 		if(isOcupied()){
 			//Se o player na cela esta morto ou ja acabou o jogo.
-			if(this.player.isDone() /*&& player instanceof BotPlayer*/){
+			if(this.player.isDone() && player instanceof BotPlayer){
 				//Incia timer que apos 2 segundos ira enviar interrupt para argumento
 				WakeUp timer=new WakeUp(Thread.currentThread());
 				timer.start();
@@ -87,9 +87,7 @@ public class Cell implements Comparator<Cell>{
 					while(timer.isAlive())
 						player.wait();
 				}
-
 			}
-
 			getPlayer().fight(player);
 
 		}else{
