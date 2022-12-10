@@ -79,7 +79,6 @@ public class Server {
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
 			while (true) {
 				objToSend.writeObject(new Message(game, jogador));
-			
 				//receberalgodaparteDele
 				
 				

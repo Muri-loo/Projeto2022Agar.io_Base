@@ -71,6 +71,7 @@ public class Client {
 			teclado =  new BoardJComponent(a.Game());
 			if(i==0){
 				buildGui(teclado);
+				
 				i++;
 			}else
 				teclado.repaint();
