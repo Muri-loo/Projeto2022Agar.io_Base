@@ -2,6 +2,8 @@ package game;
 
 
 
+import java.io.Serializable;
+
 import environment.Cell;
 import environment.Coordinate;
 
@@ -10,7 +12,7 @@ import environment.Coordinate;
  * @author luismota
  *
  */
-public abstract class Player extends Thread {
+public abstract class Player extends Thread implements Serializable{
 
 
 	protected  Game game;

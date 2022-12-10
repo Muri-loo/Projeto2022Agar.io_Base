@@ -1,5 +1,7 @@
 package game;
 
+import java.io.Serializable;
+
 import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
@@ -9,7 +11,7 @@ import gui.BoardJComponent;
  * @author luismota
  *
  */
-public class PhoneyHumanPlayer extends Player {
+public class PhoneyHumanPlayer extends Player implements Serializable {
 	public PhoneyHumanPlayer(int id, Game game, byte strength) {
 		super(id, game, strength);
 	}

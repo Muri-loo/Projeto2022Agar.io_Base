@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.event.WindowEvent;
+import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -14,7 +15,7 @@ import game.PlayerDos;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class GameGuiMain implements Observer {
+public class GameGuiMain implements Observer, Serializable {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
@@ -25,6 +26,9 @@ public class GameGuiMain implements Observer {
 		game.addObserver(this);
 		buildGui();
 
+	}
+	public Game getGame() {
+		return game;
 	}
 
 	private void buildGui() {

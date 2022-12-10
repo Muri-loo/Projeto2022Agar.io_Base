@@ -1,10 +1,12 @@
 package game;
 
+import java.io.Serializable;
+
 import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
 
-public class PlayerDos extends Player {
+public class PlayerDos extends Player implements Serializable {
 
 	public PlayerDos(int id, Game game) {
 		super(id, game);

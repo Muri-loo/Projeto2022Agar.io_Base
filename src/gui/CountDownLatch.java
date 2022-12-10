@@ -1,6 +1,8 @@
 package gui;
 
-public class CountDownLatch { // ARTUR
+import java.io.Serializable;
+
+public class CountDownLatch implements Serializable { // ARTUR
 	
 	private int count ;
 	

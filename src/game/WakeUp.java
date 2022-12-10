@@ -1,6 +1,8 @@
 package game;
 
-public class WakeUp extends Thread{
+import java.io.Serializable;
+
+public class WakeUp extends Thread implements Serializable{
 
 	Thread p;
 	public WakeUp(Thread p) {

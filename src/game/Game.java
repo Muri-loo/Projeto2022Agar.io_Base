@@ -1,6 +1,7 @@
 package game;
 
 
+import java.io.Serializable;
 import java.util.Observable;
 //import java.util.concurrent.CountDownLatch;
 
@@ -9,7 +10,7 @@ import environment.Cell;
 import environment.Coordinate;
 import gui.BoardJComponent;
 
-public class Game extends Observable {
+public class Game extends Observable implements Serializable {
 
 	public static final int DIMY = 10;
 	public static final int DIMX = 10;
