@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -11,18 +12,27 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import environment.Direction;
 import gui.GameGuiMain;
 
 
 public class Server {
-	
+
+	public GameGuiMain jogo;
 	public Game game;
 	public static final int PORTO = 8080;
-	ObjectOutputStream objToSend;
+	ObjectOutputStream out;
+	ObjectInputStream in;
+	private int ids=0;
+
+
 
 	public void OpenServer() throws IOException {
 		ServerSocket ss = new ServerSocket(PORTO);
-		game= new Game();
+		jogo= new GameGuiMain();
+		game= jogo.getGame();
+		jogo.start();
+
 		try {
 			while(true){
 				Socket socket = ss.accept();
@@ -45,52 +55,51 @@ public class Server {
 
 
 	public class DealWithClient extends Thread {
-		
-		private int ids=0;
+
 
 		public DealWithClient(Socket socket) throws IOException {
 			doConnections(socket);
 		}
 
-		private BufferedReader in;
-		private PrintWriter out;
 
 		@Override
 		public void run() {
-				try {
-					serve();
-				} catch (IOException | InterruptedException e) {
-					e.printStackTrace();
-				}
-		
+			try {
+				serve();
+			} catch (IOException | InterruptedException | ClassNotFoundException e) {
+				e.printStackTrace();
+			}
+
 		}
 
 		void doConnections(Socket socket) throws IOException {
-			in = new BufferedReader(new InputStreamReader(
-					socket.getInputStream()));
-			objToSend = new ObjectOutputStream(socket.getOutputStream());
 
-
-//			out = new PrintWriter(new BufferedWriter(
-//					new OutputStreamWriter(socket.getOutputStream())),
-//					true);
+			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			out.flush();
+			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
 		}
-		private void serve() throws IOException, InterruptedException {
+		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
+			System.out.println("ENTROU PARA COLOCAR NO JOGO");
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
+			System.out.println(jogador);
+
+			jogador.start();
 			while (true) {
-				objToSend.writeObject(new Message(game, jogador));
-				//receberalgodaparteDele
-				
-				
-				Thread.sleep(Game.REFRESH_INTERVAL);
+				////				System.out.println("send");
+		        Message direction = (Message) in.readObject();
+				System.out.println(direction.getDir());
+				jogador.ToMove(direction.getDir());
+				//
+								Thread.sleep(Game.REFRESH_INTERVAL);
+				//			}
 			}
 		}
+
+
+		//	private class SendOutPut extends Thread{
+		//		
+		//	}
+
+
 	}
-
-
-
-
-
-
-
 }

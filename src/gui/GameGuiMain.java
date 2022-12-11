@@ -10,12 +10,11 @@ import java.util.concurrent.Executors;
 import game.BotPlayer;
 import game.Game;
 import game.PhoneyHumanPlayer;
-import game.PlayerDos;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class GameGuiMain implements Observer, Serializable {
+public class GameGuiMain extends Thread implements Observer, Serializable {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
@@ -32,7 +31,7 @@ public class GameGuiMain implements Observer, Serializable {
 	}
 
 	private void buildGui() {
-		boardGui = new BoardJComponent(game);
+		boardGui = new BoardJComponent(game,true);
 		frame.add(boardGui);
 		game.setTeclado(boardGui);
 
@@ -63,10 +62,10 @@ public class GameGuiMain implements Observer, Serializable {
 
 		
 		ExecutorService pool = Executors.newFixedThreadPool(200);
-		for(int i=0; i<99; i++){
-			BotPlayer f =new BotPlayer(i,game);
-			pool.submit(f);
-		}
+//		for(int i=0; i<99; i++){
+//			BotPlayer f =new BotPlayer(i,game);
+//			pool.submit(f);
+//		}
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
@@ -80,6 +79,16 @@ public class GameGuiMain implements Observer, Serializable {
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 		}
 
+	}
+	
+	@Override
+	public void run() {
+		try {
+			this.init();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	@Override

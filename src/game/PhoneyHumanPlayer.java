@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import environment.Cell;
 import environment.Coordinate;
+import environment.Direction;
 import gui.BoardJComponent;
 
 /**
@@ -12,6 +13,9 @@ import gui.BoardJComponent;
  *
  */
 public class PhoneyHumanPlayer extends Player implements Serializable {
+
+	Direction ToMove=null;
+
 	public PhoneyHumanPlayer(int id, Game game, byte strength) {
 		super(id, game, strength);
 	}
@@ -25,21 +29,21 @@ public class PhoneyHumanPlayer extends Player implements Serializable {
 
 	@Override
 	public  void move() throws InterruptedException {
-		BoardJComponent key = game.getTeclado();
-		if(key.getLastPressedDirection()==null)
+		if(ToMove==null)
 			return;
 		Cell celulaPlayer=super.getCurrentCell();
 
-		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(key.getLastPressedDirection().getVector());
+		Coordinate novaCoordenada=celulaPlayer.getPosition().translate(ToMove.getVector());
 
 		if(canMove(novaCoordenada)){
 			game.getCell(novaCoordenada).setPlayer(this);
-			key.clearLastPressedDirection();
 		}
-
-
+		this.ToMove=null;
 	}
-
+	
+	public void ToMove(Direction b) {
+		this.ToMove=b;
+	}
 
 
 

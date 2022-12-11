@@ -2,23 +2,19 @@ package game;
 
 import java.io.Serializable;
 
+import environment.Direction;
 import gui.GameGuiMain;
 
 public class Message implements Serializable {
 
-	private final Game gui;
-	private final PhoneyHumanPlayer p;
+	private final Direction dir;
 
-	public Message(Game gui, PhoneyHumanPlayer p) {
-		this.gui=gui;
-		this.p=p;
+	public Message(Direction dir) {
+		this.dir=dir;
 	}
-	
-	public Game Game(){
-		return gui;
-	}
-	public PhoneyHumanPlayer Player(){
-		return p;
+
+	public Direction getDir(){
+		return dir;
 	}
 
 	
