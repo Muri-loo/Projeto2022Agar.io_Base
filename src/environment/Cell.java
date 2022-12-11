@@ -89,6 +89,7 @@ public class Cell implements Comparator<Cell>, Serializable{
 						player.wait();
 				}
 			}
+			
 			getPlayer().fight(player);
 
 		}else{

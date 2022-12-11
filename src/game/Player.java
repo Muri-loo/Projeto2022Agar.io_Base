@@ -145,20 +145,21 @@ public abstract class Player extends Thread implements Serializable{
 	//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
 
 
-	
+
 	@Override
 	public void run() {
 
 		while(!(this.isDone() || game.isOver()) ){
 			try {
 				if(this.getCurrentCell()==null)	
-//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
+					//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
 					game.getRandomCell().setPlayerInGame(this);
 				else
 					move();
 
 				game.notifyChange();
-				Thread.sleep(Game.REFRESH_INTERVAL*originalStrength);
+				if(this instanceof BotPlayer)
+					Thread.sleep(Game.REFRESH_INTERVAL*originalStrength);
 			} catch (InterruptedException e) {
 				if(this.isDone() || game.isOver())return;
 			}

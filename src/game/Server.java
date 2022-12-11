@@ -79,6 +79,8 @@ public class Server {
 			out.flush();
 			in = new ObjectInputStream(socket.getInputStream());
 		}
+		
+		
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			System.out.println("ENTROU PARA COLOCAR NO JOGO");
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
