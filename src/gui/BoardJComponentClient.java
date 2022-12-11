@@ -55,7 +55,6 @@ public class BoardJComponentClient extends JComponent implements KeyListener {
 
 	@Override
 	protected void paintComponent(Graphics g) {
-		System.out.println("Pintura");
 		super.paintComponent(g);
 		double cellHeight=getHeight()/(double)Game.DIMY;
 		double cellWidth=getWidth()/(double)Game.DIMX;
@@ -72,7 +71,6 @@ public class BoardJComponentClient extends JComponent implements KeyListener {
 
 				PlayerData player = mapa.get(p);
 				if(player!=null) {
-					System.out.println("Pintura player");
 
 					// Fill yellow if there is a dead player
 					if(player.strength==0) {

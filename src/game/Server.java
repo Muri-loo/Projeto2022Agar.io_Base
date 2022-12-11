@@ -73,25 +73,29 @@ public class Server {
 		}
 
 		void doConnections(Socket socket) throws IOException {
-//			  
+			//			  
 
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
 			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		}
 
-
+		//SO PARA 1 CLIENTE
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			System.out.println("ENTROU PARA COLOCAR NO JOGO");
-			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game,(byte)1);
+			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
 			System.out.println(jogador);
-
 			jogador.start();
+
 			while (true) {
-				out.writeObject(new Message(game.GetCurrentMap()));
-				String direction =  in.readLine();
-				System.out.println(Direction.stringToDir(direction));
-				jogador.ToMove(Direction.stringToDir(direction));
+				//ENVIAR MAPA
+				out.writeObject(new Message(game.GetCurrentMap(),jogador.isAlive()));
+				//RECEBER DIREÇÕES SO SE TIVER VIVO
+				if(jogador.isAlive()){
+					String direction =  in.readLine();
+					System.out.println(Direction.stringToDir(direction));
+					jogador.ToMove(Direction.stringToDir(direction));
+				}
 				out.flush();
 				Thread.sleep(Game.REFRESH_INTERVAL);
 			}

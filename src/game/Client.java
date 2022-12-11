@@ -1,19 +1,13 @@
 package game;
 
-import java.awt.Frame;
-import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutput;
-import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.InetAddress;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -74,16 +68,21 @@ public class Client extends Thread{
 			Message mensagem = (Message) in.readObject();
 			cliente.setJogadores(mensagem.getMapa());
 			cliente.repaint();
-			Direction direction= cliente.getLastPressedDirection();
-			System.out.println(Direction.dirToString(direction));
-			out.flush();
-			out.println(Direction.dirToString(direction));
-			cliente.clearLastPressedDirection();
+
+			if(mensagem.getIsVivo()){
+				Direction direction= cliente.getLastPressedDirection();
+				System.out.println(Direction.dirToString(direction));
+				out.flush();
+				out.println(Direction.dirToString(direction));
+				cliente.clearLastPressedDirection();
+			}
+
+
 		}
 	}
 
- 
-	
+
+
 	private void buildGui(BoardJComponentClient boardGui) {
 		JFrame frame = new JFrame("pcd.io");
 		frame.add(boardGui);
