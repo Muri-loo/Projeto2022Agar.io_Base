@@ -82,7 +82,8 @@ public class Client extends Thread{
 		}
 	}
 
-
+ 
+	
 	private void buildGui(BoardJComponentClient boardGui) {
 		JFrame frame = new JFrame("pcd.io");
 		frame.add(boardGui);
