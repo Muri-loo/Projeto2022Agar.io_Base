@@ -21,10 +21,7 @@ public class Server {
 	public GameGuiMain jogo;
 	public Game game;
 	public static final int PORTO = 8080;
-
 	private int ids=0;
-
-
 
 	public void OpenServer() throws IOException {
 		ServerSocket ss = new ServerSocket(PORTO);
@@ -38,9 +35,11 @@ public class Server {
 				System.out.println("Conexão feita");
 				new DealWithClient(socket).start();
 			}			
+
 		} finally {
 			ss.close();
 		}
+
 	}
 
 	public static void main(String[] args) {
@@ -54,7 +53,7 @@ public class Server {
 
 
 	public class DealWithClient extends Thread {
-		ObjectInputStream in;
+		BufferedReader in;
 		ObjectOutputStream out;
 
 
@@ -74,13 +73,14 @@ public class Server {
 		}
 
 		void doConnections(Socket socket) throws IOException {
+//			  
 
 			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
-			in = new ObjectInputStream(socket.getInputStream());
+			in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 		}
-		
-		
+
+
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			System.out.println("ENTROU PARA COLOCAR NO JOGO");
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
@@ -89,8 +89,9 @@ public class Server {
 			jogador.start();
 			while (true) {
 				out.writeObject(new Message(game.GetCurrentMap()));
-				Direction direction = (Direction) in.readObject();
-				jogador.ToMove(direction);
+				String direction =  in.readLine();
+				System.out.println(Direction.stringToDir(direction));
+				jogador.ToMove(Direction.stringToDir(direction));
 				out.flush();
 				Thread.sleep(Game.REFRESH_INTERVAL);
 			}

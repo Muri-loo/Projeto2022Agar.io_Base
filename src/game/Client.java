@@ -23,7 +23,7 @@ import gui.BoardJComponentClient;
 
 
 public class Client extends Thread{
-	private ObjectOutputStream out;
+	private PrintWriter out;
 	private ObjectInputStream in;
 	private Socket socket;
 	private boolean AWSD;
@@ -63,7 +63,7 @@ public class Client extends Thread{
 
 		in = new ObjectInputStream(socket.getInputStream());
 
-		out = new ObjectOutputStream(socket.getOutputStream());
+		out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
 	}
 
 	void sendMessages() throws IOException, ClassNotFoundException {
@@ -74,14 +74,11 @@ public class Client extends Thread{
 			Message mensagem = (Message) in.readObject();
 			cliente.setJogadores(mensagem.getMapa());
 			cliente.repaint();
-
 			Direction direction= cliente.getLastPressedDirection();
-			System.out.println(direction);
+			System.out.println(Direction.dirToString(direction));
 			out.flush();
-			out.writeObject(direction);
+			out.println(Direction.dirToString(direction));
 			cliente.clearLastPressedDirection();
-
-
 		}
 	}
 
