@@ -62,10 +62,10 @@ public class GameGuiMain extends Thread implements Observer, Serializable {
 
 		
 		ExecutorService pool = Executors.newFixedThreadPool(200);
-//		for(int i=0; i<99; i++){
-//			BotPlayer f =new BotPlayer(i,game);
-//			pool.submit(f);
-//		}
+		for(int i=0; i<7; i++){
+			BotPlayer f =new BotPlayer(i,game);
+			pool.submit(f);
+		}
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {

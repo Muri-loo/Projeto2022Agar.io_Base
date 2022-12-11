@@ -36,6 +36,7 @@ public class Coordinate implements Serializable{
 	public int hashCode() {
 		return this.x*this.y;
 	}
+	
 	public Coordinate translate(Coordinate vector) {
 		return new Coordinate(x+vector.x, y+vector.y);
 	}

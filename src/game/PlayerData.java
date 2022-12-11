@@ -11,14 +11,7 @@ public class PlayerData implements Serializable {
 	public byte strength;
 	public boolean human;
 	public int id;
-	
-	public PlayerData(Coordinate cord, byte strength, boolean human, int id) {
-		super();
-		this.cord = cord;
-		this.strength = strength;
-		this.human = human;
-		this.id = id;
-	}
+
 
 	public PlayerData(Player p) {
 		this.cord = p.getCurrentCell().getPosition();
