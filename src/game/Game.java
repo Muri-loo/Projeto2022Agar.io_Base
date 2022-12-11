@@ -69,16 +69,16 @@ public class Game extends Observable implements Serializable {
 	}
 
 	public ConcurrentHashMap<Coordinate,PlayerData>  GetCurrentMap() {
-		ConcurrentHashMap<Coordinate,PlayerData> mapa = new  ConcurrentHashMap<Coordinate,PlayerData>();
+		ConcurrentHashMap<Coordinate,PlayerData> MapaDosPlayers = new  ConcurrentHashMap<Coordinate,PlayerData>();
 		for (int x = 0; x < Game.DIMX; x++) 
 			for (int y = 0; y < Game.DIMY; y++) {
 				Player p= this.getCell(new Coordinate(x,y)).getPlayer();
 				if(p!=null){
-					mapa.put(new Coordinate(x,y),new PlayerData(p));
+					MapaDosPlayers.put(new Coordinate(x,y),new PlayerData(p));
 				}
 			}
 
-		return mapa;
+		return MapaDosPlayers;
 	}
 
 	public void EndGame() {

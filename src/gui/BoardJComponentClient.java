@@ -40,6 +40,7 @@ public class BoardJComponentClient extends JComponent implements KeyListener {
 	private final boolean alternativeKeys;
 
 	private ConcurrentHashMap<Coordinate,PlayerData> mapa= new ConcurrentHashMap<Coordinate,PlayerData>();
+	
 
 	public void setJogadores( ConcurrentHashMap<Coordinate,PlayerData> mapa) {
 		this.mapa = mapa;
