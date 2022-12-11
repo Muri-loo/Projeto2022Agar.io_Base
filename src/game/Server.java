@@ -83,7 +83,7 @@ public class Server {
 
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			System.out.println("ENTROU PARA COLOCAR NO JOGO");
-			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
+			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game,(byte)1);
 			System.out.println(jogador);
 
 			jogador.start();
