@@ -4,6 +4,7 @@ package game;
 import java.io.Serializable;
 import java.util.Observable;
 //import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ConcurrentHashMap;
 
 import gui.CountDownLatch;
 import environment.Cell;
@@ -20,7 +21,7 @@ public class Game extends Observable implements Serializable {
 	public CountDownLatch endgame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);
 
 	private boolean GameFinshed=false;
-	
+
 	public static final long REFRESH_INTERVAL = 400;
 	public static final double MAX_INITIAL_STRENGTH = 3;
 	public static final long MAX_WAITING_TIME_FOR_MOVE = 2000;
@@ -67,23 +68,30 @@ public class Game extends Observable implements Serializable {
 		return newCell; 
 	}
 
-	public int playersInGame() {
-		int player=0;
+	public ConcurrentHashMap<Coordinate,PlayerData>  GetCurrentMap() {
+		ConcurrentHashMap<Coordinate,PlayerData> mapa = new  ConcurrentHashMap<Coordinate,PlayerData>();
 		for (int x = 0; x < Game.DIMX; x++) 
-			for (int y = 0; y < Game.DIMY; y++) 
-				if(this.getCell(new Coordinate(x,y)).getPlayer()!=null){
-					player++;
+			for (int y = 0; y < Game.DIMY; y++) {
+				Player p= this.getCell(new Coordinate(x,y)).getPlayer();
+				if(p!=null){
+					mapa.put(new Coordinate(x,y),new PlayerData(p));
 				}
-		return player;
+			}
+
+		return mapa;
 	}
-	
+
 	public void EndGame() {
 		this.GameFinshed=true;
 	}
-	
+
 	public boolean isOver(){
 		return this.GameFinshed;
 	}
 
+	public static void main(String[] args) {
+		
+
+	}
 
 }

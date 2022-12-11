@@ -73,7 +73,6 @@ public class GameGuiMain extends Thread implements Observer, Serializable {
 			e.printStackTrace();
 		}finally{
 			game.EndGame();
-			System.out.println(game.playersInGame());
 			pool.shutdownNow();
 			JOptionPane.showMessageDialog(frame, "Jogo acabou");	
 			frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));

@@ -1,20 +1,20 @@
 package game;
 
 import java.io.Serializable;
+import java.util.concurrent.ConcurrentHashMap;
 
-import environment.Direction;
-import gui.GameGuiMain;
+import environment.Coordinate;
 
 public class Message implements Serializable {
 
-	private final Direction dir;
+	private final ConcurrentHashMap<Coordinate,PlayerData> Mapa;
 
-	public Message(Direction dir) {
-		this.dir=dir;
+	public Message(ConcurrentHashMap<Coordinate,PlayerData> Mapa) {
+		this.Mapa=Mapa;
 	}
 
-	public Direction getDir(){
-		return dir;
+	public ConcurrentHashMap<Coordinate,PlayerData> getMapa(){
+		return Mapa;
 	}
 
 	

@@ -19,9 +19,10 @@ import javax.swing.JFrame;
 
 import environment.Direction;
 import gui.BoardJComponent;
+import gui.BoardJComponentClient;
 
 
-public class Client {
+public class Client extends Thread{
 	private ObjectOutputStream out;
 	private ObjectInputStream in;
 	private Socket socket;
@@ -39,10 +40,11 @@ public class Client {
 	}
 
 	public static void main(String[] args) throws UnknownHostException {
-		new Client(Server.PORTO,  InetAddress.getByName(null) ,true).runClient();
+		new Client(Server.PORTO,  InetAddress.getByName(null) ,false).run();
 	}
 
-	public void runClient() {
+	@Override
+	public void run() {
 		try {
 			connectToServer();
 			sendMessages();
@@ -66,29 +68,33 @@ public class Client {
 
 	void sendMessages() throws IOException, ClassNotFoundException {
 		Game a= new Game();
-		BoardJComponent cliente= new BoardJComponent(a, false);
+		BoardJComponentClient cliente= new BoardJComponentClient(a, this.AWSD);
 		buildGui(cliente);
 		while(true){
+			Message mensagem = (Message) in.readObject();
+			cliente.setJogadores(mensagem.getMapa());
+			cliente.repaint();
+
 			Direction direction= cliente.getLastPressedDirection();
-			if(direction!=null){
-				out.writeObject(cliente.getLastPressedDirection());
-				cliente.clearLastPressedDirection();
-			}
+			System.out.println(direction);
+			out.flush();
+			out.writeObject(direction);
+			cliente.clearLastPressedDirection();
 
 
 		}
 	}
 
 
-		private void buildGui(BoardJComponent boardGui) {
-			JFrame frame = new JFrame("pcd.io");
-			frame.add(boardGui);
-			frame.setSize(800,800);
-			frame.setLocation(0, 150);
-			frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frame.setVisible(true);
-		}
-
-
-
+	private void buildGui(BoardJComponentClient boardGui) {
+		JFrame frame = new JFrame("pcd.io");
+		frame.add(boardGui);
+		frame.setSize(800,800);
+		frame.setLocation(0, 150);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
+
+
+
+}

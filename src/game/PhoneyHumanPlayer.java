@@ -20,7 +20,7 @@ public class PhoneyHumanPlayer extends Player implements Serializable {
 		super(id, game, strength);
 	}
 	public PhoneyHumanPlayer(int id, Game game) {
-		super(id, game);
+		super(id, game,(byte)5);
 	}
 
 	public boolean isHumanPlayer() {

@@ -17,9 +17,9 @@ public class Coordinate implements Serializable{
 	}
 
 	@Override
-	public boolean equals(Object obj) {
-		Coordinate other = (Coordinate) obj;
-		return other.x==x && other.y == y;
+	public boolean equals(Object otherObject) {
+		Coordinate other = (Coordinate) otherObject;
+		return other.x==this.x && other.y ==this.y;
 	}
 	
 	public double distanceTo(Coordinate other) {
@@ -32,6 +32,10 @@ public class Coordinate implements Serializable{
 //		return new Coordinate(a.x+this.x,this.y+y);
 //	}
 
+	@Override
+	public int hashCode() {
+		return this.x*this.y;
+	}
 	public Coordinate translate(Coordinate vector) {
 		return new Coordinate(x+vector.x, y+vector.y);
 	}

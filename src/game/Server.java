@@ -21,8 +21,7 @@ public class Server {
 	public GameGuiMain jogo;
 	public Game game;
 	public static final int PORTO = 8080;
-	ObjectOutputStream out;
-	ObjectInputStream in;
+
 	private int ids=0;
 
 
@@ -55,6 +54,8 @@ public class Server {
 
 
 	public class DealWithClient extends Thread {
+		ObjectInputStream in;
+		ObjectOutputStream out;
 
 
 		public DealWithClient(Socket socket) throws IOException {
@@ -74,9 +75,9 @@ public class Server {
 
 		void doConnections(Socket socket) throws IOException {
 
-			ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+			out = new ObjectOutputStream(socket.getOutputStream());
 			out.flush();
-			ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+			in = new ObjectInputStream(socket.getInputStream());
 		}
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			System.out.println("ENTROU PARA COLOCAR NO JOGO");
@@ -85,13 +86,11 @@ public class Server {
 
 			jogador.start();
 			while (true) {
-				////				System.out.println("send");
-		        Message direction = (Message) in.readObject();
-				System.out.println(direction.getDir());
-				jogador.ToMove(direction.getDir());
-				//
-								Thread.sleep(Game.REFRESH_INTERVAL);
-				//			}
+				out.writeObject(new Message(game.GetCurrentMap()));
+				Direction direction = (Direction) in.readObject();
+				jogador.ToMove(direction);
+				out.flush();
+				Thread.sleep(Game.REFRESH_INTERVAL);
 			}
 		}
 
