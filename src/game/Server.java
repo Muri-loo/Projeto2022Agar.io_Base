@@ -1,14 +1,9 @@
 package game;
 
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -89,13 +84,14 @@ public class Server {
 
 			while (true) {
 				//ENVIAR MAPA
-				out.writeObject(new Message(game.GetCurrentMap(),jogador.isAlive()));
+				out.writeObject(new Message(game.GetCurrentMap(),jogador.isAlive(),game.isOver()));
 				//RECEBER DIREÇÕES SO SE TIVER VIVO
 				if(jogador.isAlive()){
 					String direction =  in.readLine();
 					System.out.println(Direction.stringToDir(direction));
 					jogador.ToMove(Direction.stringToDir(direction));
 				}
+				if(game.isOver()) return;
 				out.flush();
 				Thread.sleep(Game.REFRESH_INTERVAL);
 			}

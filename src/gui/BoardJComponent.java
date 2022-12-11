@@ -34,6 +34,7 @@ public class BoardJComponent extends JComponent implements KeyListener {
 	private Image humanPlayerImage= new ImageIcon("abstract-user-flat.png").getImage();
 	private Direction lastPressedDirection=null;
 	private final boolean alternativeKeys;
+	
 
 	public BoardJComponent(Game game,boolean alternativeKeys) {
 		this.alternativeKeys=alternativeKeys;

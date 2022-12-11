@@ -2,7 +2,6 @@ package game;
 
 
 
-import java.io.Serializable;
 
 import environment.Cell;
 import environment.Coordinate;
@@ -12,7 +11,7 @@ import environment.Coordinate;
  * @author luismota
  *
  */
-public abstract class Player extends Thread implements Serializable{
+public abstract class Player extends Thread{
 
 
 	protected  Game game;
@@ -154,6 +153,7 @@ public abstract class Player extends Thread implements Serializable{
 				if(this.getCurrentCell()==null)	
 					//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
 					game.getRandomCell().setPlayerInGame(this);
+//					if(this.getCurrentCell()!=null) Thread.sleep(10000);
 				else
 					move();
 

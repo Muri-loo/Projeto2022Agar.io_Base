@@ -1,6 +1,4 @@
 package environment;
-
-import java.io.Serializable;
 import java.util.Comparator;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
@@ -11,7 +9,7 @@ import game.Game;
 import game.Player;
 import game.WakeUp;
 
-public class Cell implements Comparator<Cell>, Serializable{
+public class Cell implements Comparator<Cell>{
 	private Coordinate position;
 	private Player player=null;
 
@@ -89,7 +87,7 @@ public class Cell implements Comparator<Cell>, Serializable{
 						player.wait();
 				}
 			}
-			
+
 			getPlayer().fight(player);
 
 		}else{

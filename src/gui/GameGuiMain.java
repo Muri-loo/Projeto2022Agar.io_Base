@@ -1,7 +1,6 @@
 package gui;
 
 import java.awt.event.WindowEvent;
-import java.io.Serializable;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.concurrent.ExecutorService;
@@ -9,12 +8,11 @@ import java.util.concurrent.Executors;
 
 import game.BotPlayer;
 import game.Game;
-import game.PhoneyHumanPlayer;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-public class GameGuiMain extends Thread implements Observer, Serializable {
+public class GameGuiMain extends Thread implements Observer {
 	private JFrame frame = new JFrame("pcd.io");
 	private BoardJComponent boardGui;
 	private Game game;
@@ -62,7 +60,7 @@ public class GameGuiMain extends Thread implements Observer, Serializable {
 
 		
 		ExecutorService pool = Executors.newFixedThreadPool(200);
-		for(int i=0; i<7; i++){
+		for(int i=0; i<30; i++){
 			BotPlayer f =new BotPlayer(i,game);
 			pool.submit(f);
 		}

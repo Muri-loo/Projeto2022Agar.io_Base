@@ -1,5 +1,6 @@
 package game;
 
+import java.awt.event.WindowEvent;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -10,6 +11,7 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import environment.Direction;
 import gui.BoardJComponent;
@@ -24,6 +26,7 @@ public class Client extends Thread{
 	private int porto;
 	private InetAddress ip;
 	BoardJComponent teclado;
+	JFrame frame;
 
 
 
@@ -65,6 +68,7 @@ public class Client extends Thread{
 		BoardJComponentClient cliente= new BoardJComponentClient(a, this.AWSD);
 		buildGui(cliente);
 		while(true){
+
 			Message mensagem = (Message) in.readObject();
 			cliente.setJogadores(mensagem.getMapa());
 			cliente.repaint();
@@ -76,7 +80,11 @@ public class Client extends Thread{
 				out.println(Direction.dirToString(direction));
 				cliente.clearLastPressedDirection();
 			}
-
+			if(mensagem.getGameIsOver()){
+				JOptionPane.showMessageDialog(frame, "Jogo acabou");	
+				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
+				return;
+			}
 
 		}
 	}
@@ -84,7 +92,7 @@ public class Client extends Thread{
 
 
 	private void buildGui(BoardJComponentClient boardGui) {
-		JFrame frame = new JFrame("pcd.io");
+		 frame = new JFrame("pcd.io");
 		frame.add(boardGui);
 		frame.setSize(800,800);
 		frame.setLocation(0, 150);

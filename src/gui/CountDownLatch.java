@@ -2,7 +2,7 @@ package gui;
 
 import java.io.Serializable;
 
-public class CountDownLatch implements Serializable { // ARTUR
+public class CountDownLatch  { // ARTUR
 	
 	private int count ;
 	

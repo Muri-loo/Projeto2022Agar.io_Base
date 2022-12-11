@@ -1,13 +1,10 @@
 package game;
 
-import java.io.Serializable;
-
 import environment.Cell;
 import environment.Coordinate;
 import environment.Direction;
-import gui.BoardJComponent;
 
-public class BotPlayer extends Player implements Serializable {
+public class BotPlayer extends Player  {
 
 	public BotPlayer(int id, Game game, byte strength) {
 		super(id, game, strength);
