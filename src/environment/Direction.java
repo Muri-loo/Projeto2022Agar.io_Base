@@ -26,19 +26,17 @@ public enum Direction implements Serializable {
 		return RIGHT;
 	}
 
-	public static String dirToString(Direction a) {
-		if(a==Direction.UP)
-			return "UP";
-		else if(a==Direction.DOWN)
-			return "DOWN";
-		else if(a==Direction.LEFT)
-			return "LEFT";
-		else if(a==Direction.RIGHT)
-			return "RIGHT";
-		return "NULA";
-
-
-	}
+//	public static String dirToString(Direction a) {
+//		if(a==Direction.UP)
+//			return "UP";
+//		else if(a==Direction.DOWN)
+//			return "DOWN";
+//		else if(a==Direction.LEFT)
+//			return "LEFT";
+//		else if(a==Direction.RIGHT)
+//			return "RIGHT";
+//		return "NULA";
+//	}
 
 	public static Direction stringToDir(String a) {
 		if(a.equals("UP"))
@@ -50,12 +48,10 @@ public enum Direction implements Serializable {
 		else if(a.equals("RIGHT"))
 			return Direction.RIGHT;
 		return null;
-
 	}
 	
 	public static void main(String[] args) {
-		System.out.println(Direction.stringToDir("LEFT"));
-		System.out.println(Direction.dirToString(Direction.stringToDir("LEFT")));
+	System.out.println(Direction.RIGHT);
 
 	}
 

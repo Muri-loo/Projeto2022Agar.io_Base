@@ -9,7 +9,7 @@ import game.Game;
 import game.Player;
 import game.WakeUp;
 
-public class Cell implements Comparator<Cell>{
+public class Cell {
 	private Coordinate position;
 	private Player player=null;
 
@@ -38,20 +38,24 @@ public class Cell implements Comparator<Cell>{
 
 
 
+
 	//METODO PARA INICIALIZAR PLAYERS NO INICIO DO JOGO
 	public  void setPlayerInGame(Player player)  {
 		l.lock();
-		if(isOcupied()) 
+		if(isOcupied()){
 			System.out.println("Quero inserir o jogador: "+player+" na cela: "+this+" Onde se encontra o jogador: "+getPlayer());
+			WakeUp timer=new WakeUp(Thread.currentThread());
+			timer.start();
+		}
 		//INICIA O TIMER DE DOIS SEGUNDOS
-		WakeUp timer=new WakeUp(Thread.currentThread());
-		timer.start();
+
 		//CASO CELA ESTEJA OCUPADA ENTRA EM ESPERA
 		while(this.isOcupied()){
 			try {
 				PlayerInPosition.await();
 			} catch (InterruptedException e) {
 				l.unlock();
+				player.getGame().getRandomCell().setPlayerInGame(player);
 				return;
 			}
 		}
@@ -66,13 +70,14 @@ public class Cell implements Comparator<Cell>{
 		Cell playerCell=player.getCurrentCell();
 
 		//IMPEDIR QUE EXISTA DEAD LOCK BLOQUEANDO DOIS OBJETOS SEMPRE A MESMA ORDEM
-		if(compare(this,playerCell)>1){
+		if(this.hashCode()>player.hashCode()){
 			l.lock(); 
 			playerCell.l.lock();
 		}else{
 			playerCell.l.lock();
 			l.lock();
 		}
+
 		//Se cela tiver ocupada
 		if(isOcupied()){
 			//Se o player na cela esta morto ou ja acabou o jogo.
@@ -112,15 +117,7 @@ public class Cell implements Comparator<Cell>{
 		return "Celula com x="+position.x+" y= "+position.y;
 	}
 
-	@Override
-	public int compare(Cell o1, Cell o2) {
-		if(o1.getPosition().x>o2.getPosition().x || o1.getPosition().y>o2.getPosition().y)
-			return 1;
-		else if(o1.getPosition().y<o2.getPosition().y || o1.getPosition().y<o2.getPosition().y )
-			return -1;
-		else
-			return 0;
-	}
+
 
 
 

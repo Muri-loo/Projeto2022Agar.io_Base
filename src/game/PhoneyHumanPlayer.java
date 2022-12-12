@@ -40,8 +40,8 @@ public class PhoneyHumanPlayer extends Player implements Serializable {
 		}
 		this.ToMove=null;
 	}
-	
-	
+
+
 	public void ToMove(Direction b) {
 		this.ToMove=b;
 	}

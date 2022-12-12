@@ -33,7 +33,6 @@ public class GameGuiMain extends Thread implements Observer {
 		frame.add(boardGui);
 		game.setTeclado(boardGui);
 
-
 		frame.setSize(800,800);
 		frame.setLocation(0, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -50,20 +49,20 @@ public class GameGuiMain extends Thread implements Observer {
 			e.printStackTrace();
 		}
 
-//		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
-//		a.start();
-//		//
-//		//	
-//		//	
-//		PlayerDos d= new PlayerDos(2,game,(byte)1);
-//		d.start();
+		//		PhoneyHumanPlayer a =new PhoneyHumanPlayer(1, game,(byte)1);
+		//		a.start();
+		//		//
+		//		//	
+		//		//	
+		//		PlayerDos d= new PlayerDos(2,game,(byte)1);
+		//		d.start();
 
-		
-		ExecutorService pool = Executors.newFixedThreadPool(200);
-		for(int i=0; i<30; i++){
-			BotPlayer f =new BotPlayer(i,game);
-			pool.submit(f);
-		}
+
+		ExecutorService pool = Executors.newFixedThreadPool(Game.NUM_PLAYERS);
+				for(int i=0; i<Game.NUM_PLAYERS; i++){
+					BotPlayer f =new BotPlayer(i,game);
+					pool.submit(f);
+				}
 		try {
 			game.endgame.await();
 		} catch (InterruptedException e) {
@@ -77,7 +76,7 @@ public class GameGuiMain extends Thread implements Observer {
 		}
 
 	}
-	
+
 	@Override
 	public void run() {
 		try {
@@ -93,7 +92,7 @@ public class GameGuiMain extends Thread implements Observer {
 		boardGui.repaint();
 	}
 
-	
+
 	public static void main(String[] args) throws InterruptedException {
 		GameGuiMain game = new GameGuiMain();
 		game.init();

@@ -28,6 +28,7 @@ public class Server {
 			while(true){
 				Socket socket = ss.accept();
 				System.out.println("Conexão feita");
+				if(game.isOver())return;
 				new DealWithClient(socket).start();
 			}			
 
@@ -77,9 +78,7 @@ public class Server {
 
 		//SO PARA 1 CLIENTE
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
-			System.out.println("ENTROU PARA COLOCAR NO JOGO");
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
-			System.out.println(jogador);
 			jogador.start();
 
 			while (true) {
@@ -88,7 +87,6 @@ public class Server {
 				//RECEBER DIREÇÕES SO SE TIVER VIVO
 				if(jogador.isAlive()){
 					String direction =  in.readLine();
-					System.out.println(Direction.stringToDir(direction));
 					jogador.ToMove(Direction.stringToDir(direction));
 				}
 				if(game.isOver()) return;

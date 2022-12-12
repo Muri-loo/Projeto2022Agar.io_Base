@@ -93,6 +93,10 @@ public abstract class Player extends Thread{
 		return id;
 	}
 
+	public Game getGame() {
+		return game;
+	}
+
 	public abstract void move() throws InterruptedException;
 
 
@@ -143,28 +147,26 @@ public abstract class Player extends Thread{
 
 	//Ao iniciar Thread pela primeira vez tenta inserir o player no jogo.
 
+	//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
 
 
 	@Override
-	public void run() {
+	public void run(){
+		game.getRandomCell().setPlayerInGame(this);
+		game.notifyChange();
+		if(!this.isHumanPlayer())
+			try {Thread.sleep(10000);} catch (InterruptedException e1) {if(this.isDone() || game.isOver())return;}
 
 		while(!(this.isDone() || game.isOver()) ){
-			try {
-				if(this.getCurrentCell()==null)	
-					//					game.getCell(new Coordinate(6,6)).setPlayerInGame(this);
-					game.getRandomCell().setPlayerInGame(this);
-//					if(this.getCurrentCell()!=null) Thread.sleep(10000);
-				else
-					move();
-
+			try{
+				move();
 				game.notifyChange();
-				if(this instanceof BotPlayer)
+				if(!this.isHumanPlayer())
 					Thread.sleep(Game.REFRESH_INTERVAL*originalStrength);
 			} catch (InterruptedException e) {
 				if(this.isDone() || game.isOver())return;
 			}
 		}
-
 	}
 
 }

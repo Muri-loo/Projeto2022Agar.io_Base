@@ -22,7 +22,7 @@ public class Client extends Thread{
 	private PrintWriter out;
 	private ObjectInputStream in;
 	private Socket socket;
-	private boolean AWSD;
+	private boolean keyType;
 	private int porto;
 	private InetAddress ip;
 	BoardJComponent teclado;
@@ -30,9 +30,10 @@ public class Client extends Thread{
 
 
 
-	public Client(int porto, InetAddress a,boolean ASWD) {
+
+	public Client(int porto, InetAddress a,boolean keyType) {
 		this.porto=porto;
-		this.AWSD=AWSD;
+		this.keyType=keyType;
 		this.ip=a;
 	}
 
@@ -65,19 +66,18 @@ public class Client extends Thread{
 
 	void sendMessages() throws IOException, ClassNotFoundException {
 		Game a= new Game();
-		BoardJComponentClient cliente= new BoardJComponentClient(a, this.AWSD);
+		BoardJComponentClient cliente= new BoardJComponentClient(a, keyType);
 		buildGui(cliente);
 		while(true){
-
 			Message mensagem = (Message) in.readObject();
 			cliente.setJogadores(mensagem.getMapa());
 			cliente.repaint();
 
 			if(mensagem.getIsVivo()){
-				Direction direction= cliente.getLastPressedDirection();
-				System.out.println(Direction.dirToString(direction));
+				Direction direction = cliente.getLastPressedDirection();
+
 				out.flush();
-				out.println(Direction.dirToString(direction));
+				out.println(direction);
 				cliente.clearLastPressedDirection();
 			}
 			if(mensagem.getGameIsOver()){
@@ -85,19 +85,19 @@ public class Client extends Thread{
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
 				return;
 			}
-
 		}
 	}
 
 
 
 	private void buildGui(BoardJComponentClient boardGui) {
-		 frame = new JFrame("pcd.io");
+		frame = new JFrame("pcd.io");
 		frame.add(boardGui);
 		frame.setSize(800,800);
 		frame.setLocation(0, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
+
 	}
 
 
