@@ -10,7 +10,7 @@ public class WakeUp extends Thread {
 	@Override
 	public void run() {
 		try {
-			Thread.sleep(2000);
+			Thread.sleep(Game.MAX_WAITING_TIME_FOR_MOVE);
 			p.interrupt();
 		} catch (InterruptedException e) {
 			e.printStackTrace();

@@ -155,7 +155,7 @@ public abstract class Player extends Thread{
 		game.getRandomCell().setPlayerInGame(this);
 		game.notifyChange();
 		if(!this.isHumanPlayer())
-			try {Thread.sleep(10000);} catch (InterruptedException e1) {if(this.isDone() || game.isOver())return;}
+			try {Thread.sleep(Game.INITIAL_WAITING_TIME);} catch (InterruptedException e1) {if(this.isDone() || game.isOver())return;}
 
 		while(!(this.isDone() || game.isOver()) ){
 			try{
