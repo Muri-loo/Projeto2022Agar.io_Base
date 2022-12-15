@@ -70,7 +70,7 @@ public class Cell {
 		Cell playerCell=player.getCurrentCell();
 
 		//IMPEDIR QUE EXISTA DEAD LOCK BLOQUEANDO DOIS OBJETOS SEMPRE A MESMA ORDEM
-		if(this.hashCode()>player.hashCode()){
+		if(this.hashCode()>playerCell.hashCode()){
 			l.lock(); 
 			playerCell.l.lock();
 		}else{
