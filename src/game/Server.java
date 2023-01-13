@@ -80,26 +80,48 @@ public class Server {
 		private void serve() throws IOException, InterruptedException, ClassNotFoundException {
 			PhoneyHumanPlayer jogador = new PhoneyHumanPlayer(ids++,game);
 			jogador.start();
-
+			new ClientMapRefresh(out,jogador).start();
 			while (true) {
-				//ENVIAR MAPA
-				out.writeObject(new Message(game.GetCurrentMap(),jogador.isAlive(),game.isOver()));
 				//RECEBER DIREÇÕES SO SE TIVER VIVO
 				if(jogador.isAlive()){
+					System.out.println("pre dir");
 					String direction =  in.readLine();
+					System.out.println("recebi dir"+direction);
+				
 					jogador.ToMove(Direction.stringToDir(direction));
 				}
-				if(game.isOver()) return;
-				out.flush();
-				Thread.sleep(Game.REFRESH_INTERVAL);
+				if(game.isOver() || !jogador.isAlive()) break;
 			}
 		}
 
 
-		//	private class SendOutPut extends Thread{
-		//		
-		//	}
 
+
+
+	}
+
+	public class ClientMapRefresh extends Thread{
+		private ObjectOutputStream out;
+		PhoneyHumanPlayer jogador;
+
+		public ClientMapRefresh(ObjectOutputStream out,PhoneyHumanPlayer jogador) {
+			this.out=out;
+			this.jogador=jogador;
+		}
+
+		@Override
+		public void run() {
+			while(true) {
+				try {
+					out.writeObject(new Message(game.GetCurrentMap(),jogador.isAlive(),game.isOver()));
+					if(game.isOver()) break;
+					out.flush();
+					Thread.sleep(Game.REFRESH_INTERVAL);
+				} catch (IOException | InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
 	}
 }

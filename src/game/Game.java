@@ -14,7 +14,7 @@ public class Game extends Observable  {
 
 	public static final int DIMY = 20;
 	public static final int DIMX = 20;
-	public static final int NUM_PLAYERS = 70;
+	public static final int NUM_PLAYERS = 10;
 	private static final int NUM_FINISHED_PLAYERS_TO_END_GAME=3;
 
 	public CountDownLatch endgame = new CountDownLatch(NUM_FINISHED_PLAYERS_TO_END_GAME);

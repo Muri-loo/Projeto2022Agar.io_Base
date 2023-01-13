@@ -75,10 +75,15 @@ public class Client extends Thread{
 
 			if(mensagem.getIsVivo()){
 				Direction direction = cliente.getLastPressedDirection();
+				
+				if( !(direction==null)) {
+					System.out.println("in");
+					out.flush();
+					out.println(direction);
+					cliente.clearLastPressedDirection();
+				}
 
-				out.flush();
-				out.println(direction);
-				cliente.clearLastPressedDirection();
+				
 			}
 			if(mensagem.getGameIsOver()){
 				JOptionPane.showMessageDialog(frame, "Jogo acabou");	
