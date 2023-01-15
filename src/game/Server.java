@@ -104,6 +104,7 @@ public class Server {
 		private ObjectOutputStream out;
 		PhoneyHumanPlayer jogador;
 
+		
 		public ClientMapRefresh(ObjectOutputStream out,PhoneyHumanPlayer jogador) {
 			this.out=out;
 			this.jogador=jogador;

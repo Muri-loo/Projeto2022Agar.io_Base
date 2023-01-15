@@ -1,5 +1,7 @@
 package environment;
 import java.util.Comparator;
+import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
@@ -42,22 +44,20 @@ public class Cell {
 	//METODO PARA INICIALIZAR PLAYERS NO INICIO DO JOGO
 	public  void setPlayerInGame(Player player)  {
 		l.lock();
-		if(isOcupied()){
+		if(isOcupied())
 			System.out.println("Quero inserir o jogador: "+player+" na cela: "+this+" Onde se encontra o jogador: "+getPlayer());
-			WakeUp timer=new WakeUp(Thread.currentThread());
-			timer.start();
-		}
-		//INICIA O TIMER DE DOIS SEGUNDOS
-
+		
 		//CASO CELA ESTEJA OCUPADA ENTRA EM ESPERA
 		while(this.isOcupied()){
 			try {
-				PlayerInPosition.await();
-			} catch (InterruptedException e) {
+				PlayerInPosition.await(Game.MAX_WAITING_TIME_FOR_MOVE,TimeUnit.MILLISECONDS);
+			} catch (InterruptedException e) {}
+			if(this.isOcupied()) {
 				l.unlock();
 				player.getGame().getRandomCell().setPlayerInGame(player);
 				return;
 			}
+
 		}
 		//INSERE O PLAYER NA CELA DESEJADA
 		this.player = player;
@@ -110,6 +110,11 @@ public class Cell {
 		PlayerInPosition.signalAll();
 		l.unlock();
 
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(position.x,position.y);
 	}
 
 	@Override

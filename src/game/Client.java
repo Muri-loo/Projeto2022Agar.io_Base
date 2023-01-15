@@ -81,10 +81,9 @@ public class Client extends Thread{
 					out.flush();
 					out.println(direction);
 					cliente.clearLastPressedDirection();
-				}
-
-				
+				}	
 			}
+			
 			if(mensagem.getGameIsOver()){
 				JOptionPane.showMessageDialog(frame, "Jogo acabou");	
 				frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
@@ -102,7 +101,6 @@ public class Client extends Thread{
 		frame.setLocation(0, 150);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setVisible(true);
-
 	}
 
 
